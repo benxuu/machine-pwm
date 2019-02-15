@@ -347,7 +347,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\FWLIB\STM32F10x_FWLib\inc;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\IIC;..\HARDWARE\24CXX;..\HARDWARE\SPI;..\HARDWARE\FLASH;..\HARDWARE\TOUCH;..\HARDWARE\SRAM;..\HARDWARE\TIMER;..\MALLOC;..\MALLOC;..\USMART;..\EMWIN\STemWin\Config;..\EMWIN\STemWin\inc;..\EMWIN\Demo</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\FWLIB\STM32F10x_FWLib\inc;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\IIC;..\HARDWARE\24CXX;..\HARDWARE\SPI;..\HARDWARE\FLASH;..\HARDWARE\TOUCH;..\HARDWARE\SRAM;..\HARDWARE\TIMER;..\MALLOC;..\MALLOC;..\USMART;..\EMWIN\STemWin\Config;..\EMWIN\STemWin\inc;..\EMWIN\Demo;..\HARDWARE\PWM;..\EMWIN\Demo\GUIBulder</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -422,6 +422,11 @@
               <FileName>system_stm32f10x.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\system_stm32f10x.c</FilePath>
+            </File>
+            <File>
+              <FileName>EMWIN_window.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\EMWIN_window.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -492,6 +497,11 @@
               <FileName>ft5206.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TOUCH\ft5206.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\PWM\pwm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -757,6 +767,11 @@
               <FileName>GUIDEMO_ZoomAndRotate.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\EMWIN\Demo\GUIDEMO_ZoomAndRotate.c</FilePath>
+            </File>
+            <File>
+              <FileName>FramewinDLG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EMWIN\Demo\GUIBulder\FramewinDLG.c</FilePath>
             </File>
           </Files>
         </Group>
