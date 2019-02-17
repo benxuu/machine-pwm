@@ -25,10 +25,6 @@ Email：benxuu@163.com
 ************************************************/
 
 
-
-
-
-
 //UI显示
 void display_UI(void)
 {
@@ -53,15 +49,10 @@ void display_UI(void)
 //	}
 } 
 int main(void)
-{	 
-
-//u16 led0pwmval=0;
-//	u8 dir=1;	
-//	u8 isStart=0;
-	
+{	 	
 	delay_init();	    	//延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
-	uart_init(9600);	 	//串口初始化为115200
+	uart_init(72,9600);  //串口初始化 
  	LED_Init();			    //LED端口初始化
 	TFTLCD_Init();			//LCD初始化	
 	KEY_Init();	 			//按键初始化

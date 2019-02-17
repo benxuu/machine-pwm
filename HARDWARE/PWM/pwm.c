@@ -2,16 +2,14 @@
 #include "led.h"
 #include "delay.h"
 #include "sys.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
+//////////////////////////////////////////////////////////////////////////////////
 //ALIENTEK Mini STM32开发板
 //PWM  驱动代码			   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//修改日期:2010/12/03
+//优先使用寄存器驱动，TIM1_PWM_Init_Reg；输出口PA8
+//修改日期:2019/02/17
 //版本：V1.0
 //版权所有，盗版必究。
-//Copyright(C) 正点原子 2009-2019
+//Copyright(C) 正点原子 2019-2029
 //All rights reserved
 ////////////////////////////////////////////////////////////////////////////////// 	  
 
@@ -21,8 +19,32 @@
 //psc：时钟预分频数
 u8  PWM_CD;// 占空比
 u16 PWM_fq;	// 频率
-u16 PWM_arr;	// 自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
-u16 PWM_val;//time1定时器值，占空比细调
+u16 PWM_arr=899;	// 自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
+u16 PWM_val=0;//time1定时器值，占空比细调
+
+//TIM1_CH1 PWM输出初始化
+//arr：自动重装值
+//psc：时钟预分频数
+//相关寄存器使用说明，ARR：设定自动重装值；PSC：设置预分频器，0,不分频；CR1
+void TIM1_PWM_Init_Reg(u16 arr,u16 psc)
+{		 					 
+	//此部分需手动修改IO口设置
+	RCC->APB2ENR|=1<<11; 	//TIM1时钟使能    
+	GPIOA->CRH&=0XFFFFFFF0;	//PA8清除之前的设置
+	GPIOA->CRH|=0X0000000B;	//复用功能输出 
+	
+	TIM1->ARR=arr;			//设定计数器自动重装值 
+	TIM1->PSC=psc;			//预分频器设置
+  
+	TIM1->CCMR1|=7<<4;  	//即修改OC1M为111，CH1 PWM2模式；110/111两种PWM，6<<4时PWM输出极性相反；
+	TIM1->CCMR1|=1<<3; 		//CH1预装载使能	 
+ 	TIM1->CCER|=1<<0;   	//OC1 输出使能，CCER寄存器0位为CC1E，1表示输出。0为输入	   
+	TIM1->BDTR|=1<<15;   	//MOE 主输出使能	 ，高级定时器需配，普通定时器无此项  
+
+	TIM1->CR1=0x0080;   	//ARPE使能，开启TIM1时钟 
+	TIM1->CR1|=0x01;    	//使能定时器1 
+	TIM1->CCR1=0x0000;		//CCR1寄存器值与CNT值相比较，控制输出脉宽。此处初始化为0
+}  
 
 void TIM1_PWM_Init(u16 arr,u16 psc)
 {  
@@ -72,7 +94,7 @@ void TIM1_PWM_Init(u16 arr,u16 psc)
 void PWM_Init_fq(u16 fq){	
 	PWM_arr=72000/fq-1;
 	PWM_fq=fq; 
-	TIM1_PWM_Init(PWM_arr,0);
+	TIM1_PWM_Init_Reg(PWM_arr,0);
 	//TIM1_PWM_Init(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
 }
 	
@@ -96,39 +118,42 @@ void PWM_SET_CD(u8 cd){
 }
 
 //设置PWM占空值
-void PWM_SET_val(u16 val){	
-	PWM_val=val;	
-	TIM_SetCompare1(TIM1,val);
+void PWM_SET_val(u16 val){
+	TIM1->CCR1=val;	
+//	PWM_val=val;	
+//	TIM_SetCompare1(TIM1,val);
 }
 
 //上调PWM占空值
 void PWM_up(u16 val){
-	PWM_val+=val;	
-	TIM_SetCompare1(TIM1,PWM_val);
+	TIM1->CCR1+=val;
+//	PWM_val+=val;	
+//	TIM_SetCompare1(TIM1,PWM_val);
 }
 //下调PWM占空值
 void PWM_down(u16 val){	
-	PWM_val-=val;
-	if (PWM_val>60000) PWM_val=0;	
-	TIM_SetCompare1(TIM1,PWM_val);
+	if(TIM1->CCR1<val){TIM1->CCR1=0;}
+	else TIM1->CCR1-=val;	
+//	PWM_val-=val;
+//	if (PWM_val>60000) PWM_val=0;	
+//	TIM_SetCompare1(TIM1,PWM_val);
 }
 
 //pwm演示，led0亮度自动变化
-void PWM_demo(){
-	   
-	u8 dir=1;		
+void PWM_demo(){	   
+	u8 dir=1;	
+	u16 val=0;
 	u16 i=600;
-	TIM1_PWM_Init(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
+	TIM1_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
    	while(i)
-	{
-		if (PWM_val>60000) PWM_val=50; 
+	{		
 		i--;
  		delay_ms(10);	 
-		if(dir)PWM_val++;
-		else PWM_val--;	 
- 		if(PWM_val>300){dir=0;}
-		if(PWM_val==0)dir=1;	   					 
-		TIM_SetCompare1(TIM1,PWM_val);	   
+		if(dir)val++;
+		else val--;	 
+ 		if(val>300){dir=0;}
+		if(val==0)dir=1;	   					 
+		TIM1->CCR1=val;	   
 	} 
 	
 }
