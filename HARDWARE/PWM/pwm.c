@@ -6,10 +6,7 @@
 //ALIENTEK Mini STM32开发板
 //PWM  驱动代码			   
 //优先使用寄存器驱动，TIM1_PWM_Init_Reg；输出口PA8
-//修改日期:2019/02/17
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 正点原子 2019-2029
+//TIM2_PWM_Init_Reg；输出PA9
 //All rights reserved
 ////////////////////////////////////////////////////////////////////////////////// 	  
 
@@ -22,7 +19,7 @@ u16 PWM_fq;	// 频率
 u16 PWM_arr=899;	// 自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
 u16 PWM_val=0;//time1定时器值，占空比细调
 
-//TIM1_CH1 PWM输出初始化
+//TIM1_CH1 PWM输出初始化，PA8输出；
 //arr：自动重装值
 //psc：时钟预分频数
 //相关寄存器使用说明，ARR：设定自动重装值；PSC：设置预分频器，0,不分频；CR1
@@ -44,6 +41,31 @@ void TIM1_PWM_Init_Reg(u16 arr,u16 psc)
 	TIM1->CR1=0x0080;   	//ARPE使能，开启TIM1时钟 
 	TIM1->CR1|=0x01;    	//使能定时器1 
 	TIM1->CCR1=0x0000;		//CCR1寄存器值与CNT值相比较，控制输出脉宽。此处初始化为0
+}  
+
+
+//TIM2_CH4 PWM输出初始化，使用PA3口输出
+//arr：自动重装值
+//psc：时钟预分频数
+//相关寄存器使用说明，ARR：设定自动重装值；PSC：设置预分频器，0,不分频；CR1
+void TIM2_PWM_Init_Reg(u16 arr,u16 psc)
+{		 					 
+	//此部分需手动修改IO口设置
+	RCC->APB1ENR|=1<<0; 	//TIM2时钟使能，普通定时器，最大频率36M    
+	GPIOA->CRL&=0XFFFF0FFF;	//PA3清除之前的设置
+	GPIOA->CRL|=0X0000B000;	//复用功能输出 10：复用功能推挽输出模式，11：输出模式，最大速度50MHz
+	
+	TIM2->ARR=arr;			//设定计数器自动重装值 
+	TIM2->PSC=psc;			//预分频器设置
+  
+	TIM2->CCMR1|=7<<4;  	//即修改OC1M为111，CH1 PWM2模式；110/111两种PWM，6<<4时PWM输出极性相反；
+	TIM2->CCMR1|=1<<3; 		//CH1预装载使能	 
+ 	TIM2->CCER|=1<<0;   	//OC1 输出使能，CCER寄存器0位为CC1E，1表示输出。0为输入	   
+	//TIM1->BDTR|=1<<15;   	//MOE 主输出使能	 ，高级定时器需配，普通定时器无此项  
+
+	TIM2->CR1=0x0080;   	//ARPE使能，开启TIM1时钟 
+	TIM2->CR1|=0x01;    	//使能定时器1 
+	TIM2->CCR1=0x0000;		//CCR1寄存器值与CNT值相比较，控制输出脉宽。此处初始化为0
 }  
 
 void TIM1_PWM_Init(u16 arr,u16 psc)

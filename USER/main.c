@@ -20,6 +20,10 @@
 /************************************************
 STemWin PWM 控制系统
 开发板：ALIENTEK MIni STM32开发板  V3.3
+TIM1：PWM输出，加工脉冲
+TIM2：PWM，电压调节
+TIM3：为STemwin提供时钟
+TIM6：定时调用触摸屏处理函数
 Author：徐斌 
 Email：benxuu@163.com
 ************************************************/
@@ -58,10 +62,12 @@ int main(void)
 	KEY_Init();	 			//按键初始化
  	TP_Init();				//触摸屏初始化
 	
-	//TIM1_PWM_Init(899,0);//不分频。PWM频率=72000/(899+1)=80Khz ,UI中启动
+	//TIM1_PWM_Init(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
+	TIM2_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz ,调压PWM
 	
 	TIM3_Int_Init(999,71);	//1KHZ 定时器1ms 
 	TIM6_Int_Init(999,719);	//10ms中断
+	
 
 	mem_init(); 			//初始化内部内存池
 	

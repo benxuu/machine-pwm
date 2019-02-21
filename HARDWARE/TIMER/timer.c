@@ -16,6 +16,9 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	 
 
+
+
+//为STemWin提供时钟
 extern __IO int32_t OS_TimeMS;
 void TIM3_Int_Init(u16 arr,u16 psc)
 {
@@ -77,6 +80,7 @@ void TIM6_Int_Init(u16 arr,u16 psc)
 }
 
 
+//处理触摸屏中断事件
 void TIM6_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM6,TIM_IT_Update)!=RESET)
