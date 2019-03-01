@@ -24,6 +24,14 @@ TIM1：PWM输出，加工脉冲
 TIM2：PWM，电压调节
 TIM3：为STemwin提供时钟
 TIM6：定时调用触摸屏处理函数
+IO分配：
+PA8：TIM1-CH1输出PWM，红色LED
+PA3：TIM2_CH4 PWM
+PA1：ADC123_IN1	
+PA4：ADC12_IN4	
+PC4：ADC12_IN14	
+PD2：指示灯：绿色LED
+
 Author：徐斌 
 Email：benxuu@163.com
 ************************************************/
