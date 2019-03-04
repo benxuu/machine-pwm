@@ -25,12 +25,12 @@ TIM2：PWM，电压调节
 TIM3：为STemwin提供时钟
 TIM6：定时调用触摸屏处理函数
 IO分配：
-PA8：TIM1-CH1输出PWM，红色LED
-PA3：TIM2_CH4 PWM
-PA1：ADC123_IN1	
-PA4：ADC12_IN4	
-PC4：ADC12_IN14	
-PD2：指示灯：绿色LED
+PA8：TIM1-CH1输出PWM，红色LED,41#
+PA3：TIM2_CH4 PWM,17#,带47K上拉
+PA1：ADC123_IN1	，15#，NRF24L01接收
+PA4：ADC12_IN4	，20#，NRF24L01接口的CE信号，完全独立
+PC4：ADC12_IN14	，24#，NRF24L01接口的Cs信号，完全独立
+PD2：指示灯：绿色LED，54#
 
 Author：徐斌 
 Email：benxuu@163.com
@@ -65,7 +65,7 @@ int main(void)
 	delay_init();	    	//延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(72,9600);  //串口初始化 
- 	LED_Init();			    //LED端口初始化
+ 	//LED_Init();			    //LED端口初始化
 	TFTLCD_Init();			//LCD初始化	
 	KEY_Init();	 			//按键初始化
  	TP_Init();				//触摸屏初始化
