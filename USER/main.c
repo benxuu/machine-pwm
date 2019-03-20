@@ -71,10 +71,10 @@ int main(void)
  	TP_Init();				//触摸屏初始化
 	
 	//TIM1_PWM_Init(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
-	TIM2_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz ,调压PWM
+	//TIM2_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz ,调压PWM
 	
-	TIM3_Int_Init(999,71);	//1KHZ 定时器1ms 
-	TIM6_Int_Init(999,719);	//10ms中断
+	TIM3_Int_Init(999,71);	//1KHZ 定时器1ms ,为STemwin提供时钟
+	TIM6_Int_Init(999,719);	//10ms中断,定时调用触摸屏处理函数
 	
 
 	mem_init(); 			//初始化内部内存池
