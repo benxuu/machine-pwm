@@ -14,8 +14,8 @@ void PPOWER_Init(void)
   
 }
 //…Ë÷√µÁ—π
-void set_U(int 16 u)
-{
- printf();
-  
-}
+//void set_U(int 16 u)
+//{
+// printf();
+//  
+//}
