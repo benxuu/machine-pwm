@@ -30,13 +30,31 @@ void MainTask(void) {
   #if GUI_WINSUPPORT
     WM_SetCreateFlags(WM_CF_MEMDEV);
   #endif
+  WM_HWIN hNumPad;
+
   GUI_Init();
+
   #if GUI_WINSUPPORT
     WM_MULTIBUF_Enable(1);
   #endif
   //GUIDEMO_Main();
     CreatePWMControl(WM_HBKWIN); //创建窗体,父窗体是桌面背景
-    while(1) {GUI_Delay(20);} //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
+
+    WM_SetCallback(WM_HBKWIN, _cbDesktop);
+  hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
+                                GUI_COUNTOF(_aDialogNumPad),
+                                _cbDialogNumPad, WM_HBKWIN, 0, 0); /* Create the numpad dialog */
+  WM_SetStayOnTop(hNumPad, 1);
+    while(1) {
+             GUI_ExecDialogBox(_aDialogUser,
+                      GUI_COUNTOF(_aDialogUser),
+                      _cbDialogUser, WM_HBKWIN, 0, 0);             /* Execute the user dialog */
+            GUI_Delay(200);
+
+
+    } //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
+
+
 }
 
 /*************************** End of file ****************************/

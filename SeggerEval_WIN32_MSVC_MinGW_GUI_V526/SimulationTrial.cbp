@@ -144,6 +144,12 @@
 		<Unit filename="Application/PWMControlDLG.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Application/WIDGET_NumPad.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Application/numkeyboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Config/GUIConf.c">
 			<Option compilerVar="CC" />
 		</Unit>
