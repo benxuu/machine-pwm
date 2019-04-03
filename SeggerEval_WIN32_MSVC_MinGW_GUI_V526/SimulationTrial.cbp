@@ -141,15 +141,16 @@
 		<Unit filename="Application/GUIDEMO_ZoomAndRotate.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Application/KeyBoardDLG.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Application/PWMControlDLG.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Application/WIDGET_NumPad.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Application/numkeyboard.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="Application/pwmcontroldlg.h" />
 		<Unit filename="Config/GUIConf.c">
 			<Option compilerVar="CC" />
 		</Unit>
