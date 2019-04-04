@@ -20,7 +20,7 @@
 
 // USER START (Optionally insert additional includes)
 // USER END
-#include "pwmcontroldlg.h"
+
 #include "DIALOG.h"
 
 /*********************************************************************
@@ -42,10 +42,16 @@
 #define ID_BUTTON_1            (GUI_ID_USER + 0x0A)
 #define ID_GRAPH_0            (GUI_ID_USER + 0x0B)
 #define ID_TEXT_4            (GUI_ID_USER + 0x0C)
-#define ID_TEXT_5            (GUI_ID_USER + 0x0F)
-#define ID_TEXT_6            (GUI_ID_USER + 0x10)
-#define ID_TEXT_7            (GUI_ID_USER + 0x11)
-#define ID_TEXT_8            (GUI_ID_USER + 0x12)
+#define ID_TEXT_5            (GUI_ID_USER + 0x0D)
+#define ID_TEXT_6            (GUI_ID_USER + 0x0E)
+#define ID_TEXT_7            (GUI_ID_USER + 0x0F)
+#define ID_TEXT_8            (GUI_ID_USER + 0x10)
+#define ID_HEADER_0            (GUI_ID_USER + 0x12)
+#define ID_TEXT_9            (GUI_ID_USER + 0x13)
+#define ID_BUTTON_2            (GUI_ID_USER + 0x14)
+#define ID_BUTTON_3            (GUI_ID_USER + 0x15)
+#define ID_BUTTON_4            (GUI_ID_USER + 0x16)
+#define ID_BUTTON_5            (GUI_ID_USER + 0x17)
 
 
 // USER START (Optionally insert additional defines)
@@ -67,22 +73,28 @@
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, 0, 0, 800, 480, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 130, 270, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 130, 320, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "voltage", ID_TEXT_0, 36, 275, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "current", ID_TEXT_1, 34, 319, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 380, 270, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 380, 320, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "pulse width", ID_TEXT_2, 291, 326, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "frequency", ID_TEXT_3, 291, 267, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 543, 187, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 655, 189, 80, 30, 0, 0x0, 0 },
-  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 0, 1, 500, 240, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 130, 315, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 130, 365, 80, 30, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "voltage", ID_TEXT_0, 36, 325, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "current", ID_TEXT_1, 34, 374, 80, 20, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 380, 304, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 380, 365, 80, 30, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "pulse width", ID_TEXT_2, 291, 371, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "frequency", ID_TEXT_3, 291, 317, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 533, 212, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 635, 209, 80, 30, 0, 0x0, 0 },
+  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 0, 61, 500, 240, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 431, 780, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 528, 49, 101, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 631, 47, 80, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 523, 96, 90, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 625, 92, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 528, 129, 101, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 631, 127, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 523, 161, 90, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 625, 162, 80, 20, 0, 0x64, 0 },
+  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 548, 304, 80, 28, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 650, 305, 80, 28, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 548, 363, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 655, 365, 80, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -96,7 +108,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 
 // USER START (Optionally insert additional static code)
 // USER END
-
+ extern WM_HWIN hPage[4];
 /*********************************************************************
 *
 *       _cbDialog
@@ -109,7 +121,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   // USER END
 
   switch (pMsg->MsgId) {
-
   case WM_INIT_DIALOG:
     //
     // Initialization of 'PWMControl'
@@ -120,6 +131,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     FRAMEWIN_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
     FRAMEWIN_SetTextColor(hItem, 0x00000000);
     FRAMEWIN_SetFont(hItem, GUI_FONT_20_1);
+    FRAMEWIN_SetTitleVis(hItem, 0);
     //
     // Initialization of 'tb_dianya'
     //
@@ -200,6 +212,33 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
     TEXT_SetText(hItem, "2.00");
     TEXT_SetFont(hItem, GUI_FONT_16_1);
+    //
+    // Initialization of 'Text'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9);
+    TEXT_SetText(hItem, "PWM Power Control");
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+    TEXT_SetFont(hItem, GUI_FONT_24B_1);
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
+    BUTTON_SetText(hItem, "1");
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
+    BUTTON_SetText(hItem, "2");
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
+    BUTTON_SetText(hItem, "Backspace");
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
+    BUTTON_SetText(hItem, "Enter");
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -210,9 +249,10 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     case ID_EDIT_0: // Notifications sent by 'tb_dianya'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
-
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
+         WM_ShowWindow(hPage[1]);
+        WM_BringToTop(hPage[1]);
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -229,13 +269,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     case ID_EDIT_1: // Notifications sent by 'tb_dianliu'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
-
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
+         WM_ShowWindow(hPage[1]);
+        WM_BringToTop(hPage[1]);
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -248,7 +289,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     case ID_EDIT_2: // Notifications sent by 'Edit'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
-
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;
@@ -310,6 +350,93 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
+    case ID_HEADER_0: // Notifications sent by 'Header'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_2: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+          hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
+        EDIT_SetText(hItem, "11111");
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_3: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+          hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
+        EDIT_SetText(hItem, "2222");
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_4: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
+        EDIT_SetText(hItem, "");
+        WM_ShowWindow(hPage[1]);
+        WM_BringToTop(hPage[1]);
+         //WM_ShowWindow(hPage[0]);
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_5: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+          hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
+        EDIT_SetText(hItem, "0000");
+        WM_ShowWindow(hPage[0]);
+       // WM_HideWindow(hPage[0]);
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
     // USER START (Optionally insert additional code for further Ids)
     // USER END
     }
@@ -322,120 +449,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   }
 }
 
-//
-//static void _cbDialogKeyboard(WM_MESSAGE * pMsg) {
-//  GUI_RECT r;
-//  unsigned i;
-//  int     NCode;
-//  unsigned Id;
-//  int     Pressed;
-//  WM_HWIN hItem;
-//  WM_HWIN hDlg;
-//
-//    Pressed = 0;
-//    hDlg = pMsg->hWin;
-//  switch (pMsg->MsgId) {
-//        case WM_PAINT:
-//        WM_GetClientRect(&r);
-//        GUI_SetColor(0x000000);
-//        GUI_DrawRect(r.x0, r.y0, r.x1, r.y1);
-//        GUI_SetColor(0xffffff);
-//        GUI_DrawHLine(r.y0 + 1, r.x0 + 1, r.x1 - 2);
-//        GUI_DrawVLine(r.x0 + 1, r.y0 + 1, r.y1 - 2);
-//        GUI_SetColor(0x555555);
-//        GUI_DrawHLine(r.y1-1, r.x0 + 1, r.x1 - 1);
-//        GUI_DrawVLine(r.x1-1, r.y0 + 1, r.y1 - 2);
-//        break;
-//
-//        case WM_INIT_DIALOG:
-//            for (i = 0; i < GUI_COUNTOF(_aDialogKeyboard) - 1; i++) {
-//                hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
-//                BUTTON_SetFocussable(hItem, 0);
-//
-//    }
-//    WM_GetDialogItem(hDlg, GUI_ID_USER + 12);      //Ê²Ã´ÒâË¼
-//    break;
-//        case WM_NOTIFY_PARENT:
-//        Id  = WM_GetId(pMsg->hWinSrc);
-//        NCode = pMsg->Data.v;
-//        switch (NCode) {
-//            case WM_NOTIFICATION_CLICKED:
-//                Pressed = 1;
-//            case WM_NOTIFICATION_RELEASED:
-//                if ((Id >= GUI_ID_USER) && (Id <= (GUI_ID_USER + GUI_COUNTOF(_aDialogKeyboard) - 2))) {
-//        int Key;
-//        if (Id < GUI_ID_USER + 11) {
-//          char acBuffer[10];
-//          BUTTON_GetText(pMsg->hWinSrc, acBuffer, sizeof(acBuffer)); /* Get the text of the button */
-//          Key = acBuffer[0];
-//        }
-//        if (Id == GUI_ID_USER + 11) {
-//            Key = GUI_KEY_DELETE;
-//        }
-//        if (Id == GUI_ID_USER + 12) {
-//            Key = GUI_KEY_TAB;
-//        }
-//        GUI_SendKeyMsg(Key, Pressed);
-//      }
-//      if (Id == GUI_ID_USER + 13){
-//          WM_DeleteWindow(hDlg);
-//      }
-//      break;
-//    }
-//  default:
-//    WM_DefaultProc(pMsg);
-//  }
-//}
-//
-//
-//
-//static void _cbDialogPZT(WM_MESSAGE * pMsg)
-//{
-//    int     i;
-//    int     NCode;
-//    int     Id;
-//    WM_HWIN hDlg;
-//    WM_HWIN hItem;
-//
-//
-//    hDlg = pMsg->hWin;
-//  switch (pMsg->MsgId)
-//    {
-//    case WM_INIT_DIALOG:
-//    FRAMEWIN_SetFont(hDlg,&GUI_Font24B_ASCII);
-//    FRAMEWIN_SetTextAlign(hDlg,GUI_TA_VCENTER|GUI_TA_CENTER);
-//    FRAMEWIN_AddCloseButton(hDlg, FRAMEWIN_BUTTON_RIGHT, 0);
-//    FRAMEWIN_AddMaxButton(hDlg, FRAMEWIN_BUTTON_RIGHT, 1);
-//    FRAMEWIN_AddMinButton(hDlg, FRAMEWIN_BUTTON_RIGHT, 2);
-//    FRAMEWIN_SetTitleHeight(hDlg,30);
-//    for (i = 14; i < 30; i++) {
-//            EDIT_EnableBlink(WM_GetDialogItem(hDlg, GUI_ID_USER + i), 500, 1);
-//            hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
-//            EDIT_SetText(hItem, "");
-//        }
-//        break;
-//    case WM_NOTIFY_PARENT:
-//       Id = WM_GetId(pMsg->hWinSrc);
-//       NCode = pMsg->Data.v;
-//    switch (NCode) {
-//        case WM_NOTIFICATION_RELEASED:
-//            if ((Id >= GUI_ID_USER + 14) && (Id <= GUI_ID_USER + 29))  {
-//                Keyboard();
-//            }
-//            if (Id == GUI_ID_OK){
-//                WM_DeleteWindow(hDlg);
-//            }
-//            break;
-//    }
-//    break;
-//   default:
-//       WM_DefaultProc(pMsg);
-//    }
-//}
-
-
-//extern  WM_HWIN hNumPad;
-//extern   WM_HWIN hmain;
 /*********************************************************************
 *
 *       Public code

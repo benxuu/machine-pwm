@@ -21,7 +21,7 @@ Purpose     : GUIDEMO initialization
 */
 
 #include "GUIDEMO.h"
-
+ WM_HWIN hPage[4];
 /*********************************************************************
 *
 *       MainTask
@@ -30,8 +30,7 @@ void MainTask(void) {
   #if GUI_WINSUPPORT
     WM_SetCreateFlags(WM_CF_MEMDEV);
   #endif
-  WM_HWIN hNumPad;
-  WM_HWIN hmain;
+
 
   GUI_Init();
 
@@ -39,10 +38,12 @@ void MainTask(void) {
     WM_MULTIBUF_Enable(1);
   #endif
   //GUIDEMO_Main();
-   hNumPad= CreateKeyBoard(hmain);
-    hmain=CreatePWMControl(WM_HBKWIN); //创建窗体,父窗体是桌面背景
+  // hPage[0]= CreateKeyBoard(WM_HBKWIN);
+   hPage[0]=CreatePWMControl(WM_HBKWIN); //创建窗体,父窗体是桌面背景
+   // hPage[1]=Createwin1(WM_HBKWIN);
+    hPage[1]=CreateNumpad_pwm(WM_HBKWIN);
 
-
+ WM_HideWindow(hPage[1]);
  //   WM_SetCallback(WM_HBKWIN, _cbDesktop);
   //hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
 //                                GUI_COUNTOF(_aDialogNumPad),

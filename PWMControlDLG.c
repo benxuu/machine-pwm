@@ -29,23 +29,29 @@
 *
 **********************************************************************
 */
-#define ID_FRAMEWIN_0            (GUI_ID_USER + 0x00)
-#define ID_EDIT_0            (GUI_ID_USER + 0x01)
-#define ID_EDIT_1            (GUI_ID_USER + 0x02)
-#define ID_TEXT_0            (GUI_ID_USER + 0x03)
-#define ID_TEXT_1            (GUI_ID_USER + 0x04)
-#define ID_EDIT_2            (GUI_ID_USER + 0x05)
-#define ID_EDIT_3            (GUI_ID_USER + 0x06)
-#define ID_TEXT_2            (GUI_ID_USER + 0x07)
-#define ID_TEXT_3            (GUI_ID_USER + 0x08)
-#define ID_BUTTON_0            (GUI_ID_USER + 0x09)
-#define ID_BUTTON_1            (GUI_ID_USER + 0x0A)
-#define ID_GRAPH_0            (GUI_ID_USER + 0x0B)
-#define ID_TEXT_4            (GUI_ID_USER + 0x0C)
-#define ID_TEXT_5            (GUI_ID_USER + 0x0F)
-#define ID_TEXT_6            (GUI_ID_USER + 0x10)
-#define ID_TEXT_7            (GUI_ID_USER + 0x11)
-#define ID_TEXT_8            (GUI_ID_USER + 0x12)
+#define ID_FRAMEWIN_0     (GUI_ID_USER + 0x00)
+#define ID_EDIT_0     (GUI_ID_USER + 0x01)
+#define ID_EDIT_1     (GUI_ID_USER + 0x02)
+#define ID_TEXT_0     (GUI_ID_USER + 0x03)
+#define ID_TEXT_1     (GUI_ID_USER + 0x04)
+#define ID_EDIT_2     (GUI_ID_USER + 0x05)
+#define ID_EDIT_3     (GUI_ID_USER + 0x06)
+#define ID_TEXT_2     (GUI_ID_USER + 0x07)
+#define ID_TEXT_3     (GUI_ID_USER + 0x08)
+#define ID_BUTTON_0     (GUI_ID_USER + 0x09)
+#define ID_BUTTON_1     (GUI_ID_USER + 0x0A)
+#define ID_GRAPH_0     (GUI_ID_USER + 0x0B)
+#define ID_TEXT_4     (GUI_ID_USER + 0x0C)
+#define ID_TEXT_5     (GUI_ID_USER + 0x0D)
+#define ID_TEXT_6     (GUI_ID_USER + 0x0E)
+#define ID_TEXT_7     (GUI_ID_USER + 0x0F)
+#define ID_TEXT_8     (GUI_ID_USER + 0x10)
+#define ID_HEADER_0     (GUI_ID_USER + 0x12)
+#define ID_TEXT_9     (GUI_ID_USER + 0x13)
+#define ID_BUTTON_2     (GUI_ID_USER + 0x14)
+#define ID_BUTTON_3     (GUI_ID_USER + 0x15)
+#define ID_BUTTON_4     (GUI_ID_USER + 0x16)
+#define ID_BUTTON_5     (GUI_ID_USER + 0x17)
 
 
 // USER START (Optionally insert additional defines)
@@ -67,22 +73,28 @@
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, 0, 0, 800, 480, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 130, 270, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 130, 320, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "voltage", ID_TEXT_0, 36, 275, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "current", ID_TEXT_1, 34, 319, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 380, 270, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 380, 320, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "pulse width", ID_TEXT_2, 291, 326, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "frequency", ID_TEXT_3, 291, 267, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 543, 187, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 655, 189, 80, 30, 0, 0x0, 0 },
-  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 0, 1, 500, 240, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 130, 315, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 130, 365, 80, 30, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "voltage", ID_TEXT_0, 36, 325, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "current", ID_TEXT_1, 34, 374, 80, 20, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 380, 304, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 380, 365, 80, 30, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "pulse width", ID_TEXT_2, 291, 371, 80, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "frequency", ID_TEXT_3, 291, 317, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 533, 212, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 635, 209, 80, 30, 0, 0x0, 0 },
+  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 0, 61, 500, 240, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 431, 780, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 528, 49, 101, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 631, 47, 80, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 523, 96, 90, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 625, 92, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 528, 129, 101, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 631, 127, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 523, 161, 90, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 625, 162, 80, 20, 0, 0x64, 0 },
+  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 548, 304, 80, 28, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 650, 305, 80, 28, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 548, 363, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 655, 365, 80, 20, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -119,6 +131,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     FRAMEWIN_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
     FRAMEWIN_SetTextColor(hItem, 0x00000000);
     FRAMEWIN_SetFont(hItem, GUI_FONT_20_1);
+    FRAMEWIN_SetTitleVis(hItem, 0);
     //
     // Initialization of 'tb_dianya'
     //
@@ -199,6 +212,33 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
     TEXT_SetText(hItem, "2.00");
     TEXT_SetFont(hItem, GUI_FONT_16_1);
+    //
+    // Initialization of 'Text'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9);
+    TEXT_SetText(hItem, "PWM Power Control");
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
+    TEXT_SetFont(hItem, GUI_FONT_24B_1);
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
+    BUTTON_SetText(hItem, "1");
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
+    BUTTON_SetText(hItem, "2");
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
+    BUTTON_SetText(hItem, "Backspace");
+    //
+    // Initialization of 'Button'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
+    BUTTON_SetText(hItem, "Enter");
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -293,6 +333,80 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       }
       break;
     case ID_BUTTON_1: // Notifications sent by 'STOP'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_HEADER_0: // Notifications sent by 'Header'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_2: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_3: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_4: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+    case ID_BUTTON_5: // Notifications sent by 'Button'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)

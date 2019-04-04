@@ -65,83 +65,14 @@
 			<Add library="GUI/Library/GUI.a" />
 			<Add library="Simulation/GUISim.a" />
 		</Linker>
-		<Unit filename="Application/GUIDEMO.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Application/GUIDEMO.h" />
-		<Unit filename="Application/GUIDEMO_AntialiasedText.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Automotive.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_BarGraph.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Bitmap.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_ColorBar.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Conf.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Cursor.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Fading.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Graph.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_IconView.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_ImageFlow.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Intro.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Listview.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_RadialMenu.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Resource.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Skinning.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Speed.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Speedometer.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Application/GUIDEMO_Start.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Application/GUIDEMO_TransparentDialog.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_Treeview.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_VScreen.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_WashingMachine.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Application/GUIDEMO_ZoomAndRotate.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Application/KeyBoardDLG.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Application/Numpad_pwmDLG.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Application/PWMControlDLG.c">
@@ -151,6 +82,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Application/pwmcontroldlg.h" />
+		<Unit filename="Application/win1DLG.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Config/GUIConf.c">
 			<Option compilerVar="CC" />
 		</Unit>
