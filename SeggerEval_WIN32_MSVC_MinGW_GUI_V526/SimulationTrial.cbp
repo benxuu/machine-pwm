@@ -78,9 +78,6 @@
 		<Unit filename="Application/PWMControlDLG.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Application/WIDGET_NumPad.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Application/pwmcontroldlg.h" />
 		<Unit filename="Application/win1DLG.c">
 			<Option compilerVar="CC" />

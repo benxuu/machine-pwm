@@ -29,21 +29,21 @@
 *
 **********************************************************************
 */
-#define ID_FRAMEWIN_0         (GUI_ID_USER + 0x00)
-#define ID_BUTTON_0         (GUI_ID_USER + 0x01)
-#define ID_BUTTON_1         (GUI_ID_USER + 0x02)
-#define ID_BUTTON_2         (GUI_ID_USER + 0x03)
-#define ID_BUTTON_3         (GUI_ID_USER + 0x04)
-#define ID_BUTTON_4         (GUI_ID_USER + 0x05)
-#define ID_BUTTON_5         (GUI_ID_USER + 0x06)
-#define ID_BUTTON_6         (GUI_ID_USER + 0x07)
-#define ID_BUTTON_7         (GUI_ID_USER + 0x08)
-#define ID_BUTTON_8         (GUI_ID_USER + 0x09)
-#define ID_BUTTON_9         (GUI_ID_USER + 0x0A)
-#define ID_BUTTON_10         (GUI_ID_USER + 0x0B)
-#define ID_BUTTON_11         (GUI_ID_USER + 0x0C)
-#define ID_BUTTON_12         (GUI_ID_USER + 0x0D)
-#define ID_BUTTON_13         (GUI_ID_USER + 0x0E)
+#define ID_FRAMEWIN_0            (GUI_ID_USER + 0x00)
+#define ID_BUTTON_0            (GUI_ID_USER + 0x01)
+#define ID_BUTTON_1            (GUI_ID_USER + 0x02)
+#define ID_BUTTON_2            (GUI_ID_USER + 0x03)
+#define ID_BUTTON_3            (GUI_ID_USER + 0x04)
+#define ID_BUTTON_4            (GUI_ID_USER + 0x05)
+#define ID_BUTTON_5            (GUI_ID_USER + 0x06)
+#define ID_BUTTON_6            (GUI_ID_USER + 0x07)
+#define ID_BUTTON_7            (GUI_ID_USER + 0x08)
+#define ID_BUTTON_8            (GUI_ID_USER + 0x09)
+#define ID_BUTTON_9            (GUI_ID_USER + 0x0A)
+#define ID_BUTTON_10            (GUI_ID_USER + 0x0B)
+#define ID_BUTTON_11            (GUI_ID_USER + 0x0C)
+#define ID_BUTTON_12            (GUI_ID_USER + 0x0D)
+#define ID_BUTTON_13            (GUI_ID_USER + 0x0E)
 
 
 // USER START (Optionally insert additional defines)
@@ -64,20 +64,20 @@
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { FRAMEWIN_CreateIndirect, "Numpad_pwm", ID_FRAMEWIN_0, 0, 0, 320, 240, 0, 0x0, 0 },
+  { FRAMEWIN_CreateIndirect, "Numpad_pwm", ID_FRAMEWIN_0, 349, 190, 297, 232, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 12, 7, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 10, 48, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 9, 93, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 12, 139, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 111, 190, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 213, 149, 80, 69, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 110, 143, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 213, 104, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_8, 109, 99, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_9, 216, 59, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_10, 112, 54, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_11, 220, 10, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_12, 112, 9, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 106, 190, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 198, 149, 80, 69, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 105, 143, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 198, 104, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_8, 104, 99, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_9, 196, 59, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_10, 107, 54, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_11, 195, 10, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_12, 102, 9, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_13, 13, 189, 80, 30, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -92,7 +92,9 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 
 // USER START (Optionally insert additional static code)
 // USER END
-
+ extern WM_HWIN hPage[4];
+ int  buff[4];
+ int j=0;
 /*********************************************************************
 *
 *       _cbDialog
@@ -101,11 +103,24 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
   int     NCode;
   int     Id;
+   int Key;
+     char acBuffer[10];
+  int i;
   // USER START (Optionally insert additional variables)
+
+
   // USER END
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
+
+//静止键盘窗口聚焦
+            for(i=ID_BUTTON_0;i<=ID_BUTTON_5;i++)
+                BUTTON_SetFocussable(WM_GetDialogItem(pMsg->hWin,i), 0);
+
+//for (i = 0; i < GUI_COUNTOF(hPage[1]) - 1; i++) {
+//                hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
+//                BUTTON_SetFocussable(hItem, 0);
     //
     // Initialization of 'Numpad_pwm'
     //
@@ -185,13 +200,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // USER END
     break;
   case WM_NOTIFY_PARENT:
+
+
+
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_BUTTON_0: // Notifications sent by 'Button'
+    case ID_BUTTON_0: // Notifications sent by '1'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+//        BUTTON_GetText(pMsg->hWinSrc,&buff[j],sizeof(buff));
+//		  j++;
+
+
+
+          BUTTON_GetText(pMsg->hWinSrc, acBuffer, sizeof(acBuffer)); /* Get the text of the button */
+          Key = acBuffer[0];
+
+        GUI_SendKeyMsg(Key, 1);                                /* Send a key message to the focussed window */
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -206,6 +234,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        BUTTON_GetText(pMsg->hWinSrc,&buff[j],sizeof(buff));
+		  j++;
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -258,10 +288,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_5: // Notifications sent by 'Button'
+    case ID_BUTTON_5: // Notifications sent by 'enter'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+        for(j=0;buff[j]!='\0';j++)
+			GUI_SendKeyMsg(buff[j], 1);//1则表示按键被按下
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -370,14 +402,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_13: // Notifications sent by 'Button'
+    case ID_BUTTON_13: // Notifications sent by 'esc'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+         WM_HideWindow(hPage[1]);
+         WM_BringToTop(hPage[0]);
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -414,7 +449,12 @@ WM_HWIN CreateNumpad_pwm(void) {
   return hWin;
 }
 
+
+
 // USER START (Optionally insert additional public code)
+
+
+
 // USER END
 
 /*************************** End of file ****************************/

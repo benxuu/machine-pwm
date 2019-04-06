@@ -680,7 +680,7 @@
 1554252407 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\keyboarddlg.c
 	"DIALOG.h"
 
-1554394317 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo_start.c
+1554479234 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo_start.c
 	"GUIDEMO.h"
 
 1553754204 e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo.h
@@ -911,7 +911,7 @@
 	"WIDGET.h"
 	"GUI_Debug.h"
 
-1554294788 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\widget_numpad.c
+1554514103 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\widget_numpad.c
 	"DIALOG.h"
 
 1553754204 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\config\guiconf.c
@@ -932,12 +932,15 @@
 
 1553754204 e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\gui\include\gui_sim_win32.h
 
-1554294788 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\numpad_pwmdlg.c
+1554477668 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\numpad_pwmdlg.c
 	"DIALOG.h"
 
-1554392260 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\pwmcontroldlg.c
+1554534289 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\pwmcontroldlg.c
 	"DIALOG.h"
 
 1554393914 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\win1dlg.c
+	"DIALOG.h"
+
+1554478395 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\windownumpaddlg.c
 	"DIALOG.h"
 

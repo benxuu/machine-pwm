@@ -22,6 +22,7 @@
 // USER END
 
 #include "DIALOG.h"
+#include “string.h”
 
 /*********************************************************************
 *
@@ -29,21 +30,21 @@
 *
 **********************************************************************
 */
-#define ID_FRAMEWIN_0         (GUI_ID_USER + 0x00)
-#define ID_BUTTON_0         (GUI_ID_USER + 0x01)
-#define ID_BUTTON_1         (GUI_ID_USER + 0x02)
-#define ID_BUTTON_2         (GUI_ID_USER + 0x03)
-#define ID_BUTTON_3         (GUI_ID_USER + 0x04)
-#define ID_BUTTON_4         (GUI_ID_USER + 0x05)
-#define ID_BUTTON_5         (GUI_ID_USER + 0x06)
-#define ID_BUTTON_6         (GUI_ID_USER + 0x07)
-#define ID_BUTTON_7         (GUI_ID_USER + 0x08)
-#define ID_BUTTON_8         (GUI_ID_USER + 0x09)
-#define ID_BUTTON_9         (GUI_ID_USER + 0x0A)
-#define ID_BUTTON_10         (GUI_ID_USER + 0x0B)
-#define ID_BUTTON_11         (GUI_ID_USER + 0x0C)
-#define ID_BUTTON_12         (GUI_ID_USER + 0x0D)
-#define ID_BUTTON_13         (GUI_ID_USER + 0x0E)
+#define ID_FRAMEWIN_0            (GUI_ID_USER + 0x00)
+#define ID_BUTTON_0            (GUI_ID_USER + 0x01)
+#define ID_BUTTON_1            (GUI_ID_USER + 0x02)
+#define ID_BUTTON_2            (GUI_ID_USER + 0x03)
+#define ID_BUTTON_3            (GUI_ID_USER + 0x04)
+#define ID_BUTTON_4            (GUI_ID_USER + 0x05)
+#define ID_BUTTON_5            (GUI_ID_USER + 0x06)
+#define ID_BUTTON_6            (GUI_ID_USER + 0x07)
+#define ID_BUTTON_7            (GUI_ID_USER + 0x08)
+#define ID_BUTTON_8            (GUI_ID_USER + 0x09)
+#define ID_BUTTON_9            (GUI_ID_USER + 0x0A)
+#define ID_BUTTON_10            (GUI_ID_USER + 0x0B)
+#define ID_BUTTON_11            (GUI_ID_USER + 0x0C)
+#define ID_BUTTON_12            (GUI_ID_USER + 0x0D)
+#define ID_BUTTON_13            (GUI_ID_USER + 0x0E)
 
 
 // USER START (Optionally insert additional defines)
@@ -64,20 +65,20 @@
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { FRAMEWIN_CreateIndirect, "Numpad_pwm", ID_FRAMEWIN_0, 0, 0, 320, 240, 0, 0x0, 0 },
+  { FRAMEWIN_CreateIndirect, "Numpad_pwm", ID_FRAMEWIN_0, 349, 190, 297, 232, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 12, 7, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 10, 48, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 9, 93, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 12, 139, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 111, 190, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 213, 149, 80, 69, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 110, 143, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 213, 104, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_8, 109, 99, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_9, 216, 59, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_10, 112, 54, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_11, 220, 10, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_12, 112, 9, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 106, 190, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 198, 149, 80, 69, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 105, 143, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 198, 104, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_8, 104, 99, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_9, 196, 59, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_10, 107, 54, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_11, 195, 10, 80, 30, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_12, 102, 9, 80, 30, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "Button", ID_BUTTON_13, 13, 189, 80, 30, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -244,11 +245,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_4: // Notifications sent by 'Button'
+    case ID_BUTTON_4: // Notifications sent by 'back'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+          memset(buff,0,10);  //清空数组			       
+        GUI_SendKeyMsg(GUI_KEY_BACKSPACE, 1);
+		// USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)

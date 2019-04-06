@@ -29,29 +29,29 @@
 *
 **********************************************************************
 */
-#define ID_FRAMEWIN_0     (GUI_ID_USER + 0x00)
-#define ID_EDIT_0     (GUI_ID_USER + 0x01)
-#define ID_EDIT_1     (GUI_ID_USER + 0x02)
-#define ID_TEXT_0     (GUI_ID_USER + 0x03)
-#define ID_TEXT_1     (GUI_ID_USER + 0x04)
-#define ID_EDIT_2     (GUI_ID_USER + 0x05)
-#define ID_EDIT_3     (GUI_ID_USER + 0x06)
-#define ID_TEXT_2     (GUI_ID_USER + 0x07)
-#define ID_TEXT_3     (GUI_ID_USER + 0x08)
-#define ID_BUTTON_0     (GUI_ID_USER + 0x09)
-#define ID_BUTTON_1     (GUI_ID_USER + 0x0A)
-#define ID_GRAPH_0     (GUI_ID_USER + 0x0B)
-#define ID_TEXT_4     (GUI_ID_USER + 0x0C)
-#define ID_TEXT_5     (GUI_ID_USER + 0x0D)
-#define ID_TEXT_6     (GUI_ID_USER + 0x0E)
-#define ID_TEXT_7     (GUI_ID_USER + 0x0F)
-#define ID_TEXT_8     (GUI_ID_USER + 0x10)
-#define ID_HEADER_0     (GUI_ID_USER + 0x12)
-#define ID_TEXT_9     (GUI_ID_USER + 0x13)
-#define ID_BUTTON_2     (GUI_ID_USER + 0x14)
-#define ID_BUTTON_3     (GUI_ID_USER + 0x15)
-#define ID_BUTTON_4     (GUI_ID_USER + 0x16)
-#define ID_BUTTON_5     (GUI_ID_USER + 0x17)
+#define ID_FRAMEWIN_0            (GUI_ID_USER + 0x00)
+#define ID_EDIT_0            (GUI_ID_USER + 0x01)
+#define ID_EDIT_1            (GUI_ID_USER + 0x02)
+#define ID_TEXT_0            (GUI_ID_USER + 0x03)
+#define ID_TEXT_1            (GUI_ID_USER + 0x04)
+#define ID_EDIT_2            (GUI_ID_USER + 0x05)
+#define ID_EDIT_3            (GUI_ID_USER + 0x06)
+#define ID_TEXT_2            (GUI_ID_USER + 0x07)
+#define ID_TEXT_3            (GUI_ID_USER + 0x08)
+#define ID_BUTTON_0            (GUI_ID_USER + 0x09)
+#define ID_BUTTON_1            (GUI_ID_USER + 0x0A)
+#define ID_GRAPH_0            (GUI_ID_USER + 0x0B)
+#define ID_TEXT_4            (GUI_ID_USER + 0x0C)
+#define ID_TEXT_5            (GUI_ID_USER + 0x0D)
+#define ID_TEXT_6            (GUI_ID_USER + 0x0E)
+#define ID_TEXT_7            (GUI_ID_USER + 0x0F)
+#define ID_TEXT_8            (GUI_ID_USER + 0x10)
+#define ID_HEADER_0            (GUI_ID_USER + 0x11)
+#define ID_TEXT_9            (GUI_ID_USER + 0x12)
+#define ID_BUTTON_2            (GUI_ID_USER + 0x13)
+#define ID_BUTTON_3            (GUI_ID_USER + 0x14)
+#define ID_BUTTON_4            (GUI_ID_USER + 0x15)
+#define ID_BUTTON_5            (GUI_ID_USER + 0x16)
 
 
 // USER START (Optionally insert additional defines)
@@ -72,29 +72,29 @@
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, 0, 0, 800, 480, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 130, 315, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 130, 365, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "voltage", ID_TEXT_0, 36, 325, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "current", ID_TEXT_1, 34, 374, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 380, 304, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 380, 365, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "pulse width", ID_TEXT_2, 291, 371, 80, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "frequency", ID_TEXT_3, 291, 317, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 533, 212, 80, 30, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 635, 209, 80, 30, 0, 0x0, 0 },
-  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 0, 61, 500, 240, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 431, 780, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 528, 129, 101, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 631, 127, 80, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 523, 161, 90, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 625, 162, 80, 20, 0, 0x64, 0 },
+  { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, -2, 1, 800, 480, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 325, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 30, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "V (10mV):", ID_TEXT_0, 20, 327, 85, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "I (10mA):", ID_TEXT_1, 26, 383, 80, 20, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 324, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 30, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "W(us):", ID_TEXT_2, 276, 376, 64, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "F(Hz):", ID_TEXT_3, 276, 327, 63, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 540, 339, 90, 50, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 669, 340, 90, 50, 0, 0x0, 0 },
+  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 436, 780, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 507, 117, 162, 29, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 171, 137, 27, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 548, 304, 80, 28, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 650, 305, 80, 28, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 548, 363, 80, 20, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 655, 365, 80, 20, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 202, 331, 50, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setI", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 328, 50, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 427, 378, 50, 25, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -137,50 +137,55 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
     EDIT_SetText(hItem, "123");
-    EDIT_SetFont(hItem, GUI_FONT_16_1);
+    EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'tb_dianliu'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
     EDIT_SetText(hItem, "123");
-    EDIT_SetFont(hItem, GUI_FONT_16_1);
+    EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'voltage'
+    // Initialization of 'V (10mV):'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_0);
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'current'
+    // Initialization of 'I (10mA):'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_1);
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'Edit'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
     EDIT_SetText(hItem, "123");
-    EDIT_SetFont(hItem, GUI_FONT_16_1);
+    EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'Edit'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
     EDIT_SetText(hItem, "123");
-    EDIT_SetFont(hItem, GUI_FONT_16_1);
+    EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'pulse width'
+    // Initialization of 'W(us):'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_2);
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'frequency'
+    // Initialization of 'F(Hz):'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_3);
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'START'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
-    BUTTON_SetFont(hItem, GUI_FONT_13_1);
+    BUTTON_SetFont(hItem, GUI_FONT_24B_1);
+    //
+    // Initialization of 'STOP'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
+    BUTTON_SetFont(hItem, GUI_FONT_24B_1);
     //
     // Initialization of 'Text'
     //
@@ -192,26 +197,26 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_5);
-    TEXT_SetText(hItem, "Real Voltage:");
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetText(hItem, "RT V (10mV):");
+    TEXT_SetFont(hItem, GUI_FONT_24_1);
     //
     // Initialization of 'lbrv'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6);
     TEXT_SetText(hItem, "5.00");
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetFont(hItem, GUI_FONT_24_1);
     //
     // Initialization of 'Text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_7);
-    TEXT_SetText(hItem, "Real Current:");
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetText(hItem, "RT I (10mA):");
+    TEXT_SetFont(hItem, GUI_FONT_24_1);
     //
     // Initialization of 'lbrc'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
     TEXT_SetText(hItem, "2.00");
-    TEXT_SetFont(hItem, GUI_FONT_16_1);
+    TEXT_SetFont(hItem, GUI_FONT_24_1);
     //
     // Initialization of 'Text'
     //
@@ -219,26 +224,27 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     TEXT_SetText(hItem, "PWM Power Control");
     TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
     TEXT_SetFont(hItem, GUI_FONT_24B_1);
+    TEXT_SetTextColor(hItem, 0x00804000);
     //
-    // Initialization of 'Button'
+    // Initialization of 'setV'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-    BUTTON_SetText(hItem, "1");
+    BUTTON_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'Button'
+    // Initialization of 'setI'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_3);
-    BUTTON_SetText(hItem, "2");
+    BUTTON_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'Button'
+    // Initialization of 'setF'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_4);
-    BUTTON_SetText(hItem, "Backspace");
+    BUTTON_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'Button'
+    // Initialization of 'setW'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
-    BUTTON_SetText(hItem, "Enter");
+    BUTTON_SetFont(hItem, GUI_FONT_20_1);
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -364,7 +370,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_2: // Notifications sent by 'Button'
+    case ID_BUTTON_2: // Notifications sent by 'setV'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -378,7 +384,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_3: // Notifications sent by 'Button'
+    case ID_BUTTON_3: // Notifications sent by 'setI'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -392,7 +398,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_4: // Notifications sent by 'Button'
+    case ID_BUTTON_4: // Notifications sent by 'setF'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -406,7 +412,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
-    case ID_BUTTON_5: // Notifications sent by 'Button'
+    case ID_BUTTON_5: // Notifications sent by 'setW'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)

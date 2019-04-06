@@ -117,7 +117,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogUser[] = {
 //
 //  Function                 Text      Id                 Px   Py   Dx   Dy
 //
-  { FRAMEWIN_CreateIndirect, "Dialog", 0,                 40,  90, 340, 315, FRAMEWIN_CF_MOVEABLE},
+  { FRAMEWIN_CreateIndirect, "Dialog", 0,                 40,  90, 140, 115, FRAMEWIN_CF_MOVEABLE},
   { EDIT_CreateIndirect,     0,        GUI_ID_EDIT0,      10,  10, 110,  20, 0, 12},
   { EDIT_CreateIndirect,     0,        GUI_ID_EDIT1,      10,  40, 110,  20, 0, 12},
   { BUTTON_CreateIndirect,   "Ok",     GUI_ID_OK,         10,  70,  50,  20 },
@@ -305,7 +305,7 @@ void MainTask(void) {
   hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
                                 GUI_COUNTOF(_aDialogNumPad),
                                 _cbDialogNumPad, WM_HBKWIN, 0, 0); /* Create the numpad dialog */
-  WM_SetStayOnTop(hNumPad, 1);//¼üÅÌ±£´æÔÚ¶¥²¿
+  WM_SetStayOnTop(hNumPad, 1);
   while (1) {
     GUI_ExecDialogBox(_aDialogUser,
                       GUI_COUNTOF(_aDialogUser),
