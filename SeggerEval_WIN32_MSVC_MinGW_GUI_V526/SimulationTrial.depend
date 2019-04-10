@@ -634,7 +634,7 @@
 1407499607 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo_speedometer.c
 	"GUIDEMO.h"
 
-1554270550 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo_start.c
+1554683872 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo_start.c
 	"GUIDEMO.h"
 
 1407499607 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\guidemo_transparentdialog.c
@@ -942,5 +942,11 @@
 	"DIALOG.h"
 
 1554478395 source:e:\github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\windownumpaddlg.c
+	"DIALOG.h"
+
+1554683872 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\numpad_pwmdlg.c
+	"DIALOG.h"
+
+1554683872 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\win1dlg.c
 	"DIALOG.h"
 
