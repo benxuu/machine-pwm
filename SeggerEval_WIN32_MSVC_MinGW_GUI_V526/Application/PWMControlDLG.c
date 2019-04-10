@@ -43,8 +43,12 @@
 */
 
 // USER START (Optionally insert additional static data)
-WM_HWIN hNumPad;
-WM_HWIN hWin;
+static WM_HWIN hNumPad;
+static WM_HWIN hWin;
+static GRAPH_DATA_Handle  pdataV;
+static GRAPH_DATA_Handle  pdataI;
+int setV=0,setI=0,rtV,rtI;//电压、电流的设置值，当前实际值；
+char buf[4];
 //WM_HWIN hedit;
 
 // USER END
@@ -82,9 +86,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 };
 
 #define MAX_VALUE	125
-static GRAPH_DATA_Handle  pdataV;
-static GRAPH_DATA_Handle  pdataI;
-int setV,setI,rtV,rtI;//电压、电流的设置值，当前实际值；
+
+//int i=0;
 /*********************************************************************
 *
 *       _cbDialog
@@ -252,15 +255,15 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		GRAPH_SCALE_SetTextColor(hScaleH, GUI_DARKGREEN);							//设置字体颜色
 		GRAPH_AttachScale(hItem, hScaleH);											//添加到水平方向
 
-		pdataI = GRAPH_DATA_YT_Create(GUI_GREEN, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
+		pdataI = GRAPH_DATA_YT_Create(GUI_RED, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
 		GRAPH_AttachData(hItem, pdataI);	 //为绘图控件添加数据对象
-		pdataV = GRAPH_DATA_YT_Create(GUI_RED, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
+		pdataV = GRAPH_DATA_YT_Create(GUI_GREEN, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
 		GRAPH_AttachData(hItem, pdataV);	 //为绘图控件添加数据对象
 
 		break;
 
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
-		WM_RestartTimer(pMsg->Data.v, 300);
+		WM_RestartTimer(pMsg->Data.v, 500);
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
 
 		//可以在这里获取ADC值
@@ -268,11 +271,13 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 		rtV++;
 		rtI++;
 		//刷新显示
-//		hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
-//        TEXT_SetText(hItem, rtI);
-//        hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6);
-//        TEXT_SetText(hItem, rtV);
-
+         // TEXT_SetText(WM_GetDialogItem(hWin,ID_TEXT_0), buf);
+ 	hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
+ 	sprintf(buf,  "%4d", rtI);
+       TEXT_SetText(hItem,  buf);
+       hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6);
+       sprintf(buf,  "%4d", rtV);
+     TEXT_SetText(hItem,  buf);
 
 		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV);		//赋值到曲线
 		 GRAPH_DATA_YT_AddValue(pdataI, (I16)rtI);		//赋值到曲线
@@ -444,35 +449,38 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       // USER END
       }
       break;
-    case ID_BUTTON_2: // Notifications sent by 'setV'
+    case ID_BUTTON_2: // Notifications sent by 'setV'设定电压
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+          hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
+        EDIT_GetText(hItem,buffer,4);
+        int num=atoi(buffer);
+        rtV=num;
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
-        EDIT_GetText(hItem,buffer,4);
-        rtV=buffer;
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
       // USER END
       }
       break;
-        case ID_BUTTON_3: // Notifications sent by 'setI'
+   case ID_BUTTON_3: // Notifications sent by 'setI'设定电流
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-
+  hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电压值
+        EDIT_GetText(hItem,buffer,4);
+        int num=atoi(buffer);
+        rtI=num;
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电liu值
-        EDIT_GetText(hItem,buffer,4);
-        rtI=buffer;
+
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -640,7 +648,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
 //
 // Title of sample
 //
-static char _aTitle[] = {"WIDGET_NumPad"};
+//static char _aTitle[] = {"WIDGET_NumPad"};
 
 
 /*********************************************************************
