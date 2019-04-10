@@ -45,6 +45,8 @@
 // USER START (Optionally insert additional static data)
 WM_HWIN hNumPad;
 WM_HWIN hWin;
+//WM_HWIN hedit;
+
 // USER END
 
 /*********************************************************************
@@ -66,9 +68,9 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 436, 780, 20, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_5, 507, 117, 162, 29, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },//电压显示
   { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 171, 137, 27, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },//电流显示
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 202, 331, 50, 25, 0, 0x0, 0 },
@@ -89,6 +91,7 @@ int setV,setI,rtV,rtI;//电压、电流的设置值，当前实际值；
 */
 static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
+  char buffer[4];
   int     NCode;
   int     Id;
   	short Val;
@@ -179,24 +182,28 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_5);
     TEXT_SetText(hItem, "RT V (10mV):");
     TEXT_SetFont(hItem, GUI_FONT_24_1);
+    TEXT_SetTextColor(hItem, GUI_GREEN);
     //
     // Initialization of 'lbrv'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6);
     TEXT_SetText(hItem, "5.00");
     TEXT_SetFont(hItem, GUI_FONT_24_1);
+     TEXT_SetTextColor(hItem, GUI_GREEN);
     //
     // Initialization of 'Text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_7);
     TEXT_SetText(hItem, "RT I (10mA):");
     TEXT_SetFont(hItem, GUI_FONT_24_1);
+    TEXT_SetTextColor(hItem, GUI_RED);
     //
     // Initialization of 'lbrc'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
     TEXT_SetText(hItem, "2.00");
     TEXT_SetFont(hItem, GUI_FONT_24_1);
+     TEXT_SetTextColor(hItem, GUI_RED);
     //
     // Initialization of 'Text'
     //
@@ -231,7 +238,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
    hItem = WM_GetDialogItem(pMsg->hWin, ID_GRAPH_0);
 		GRAPH_SetBorder(hItem, 40, 5, 5, 5);//边框
 		GRAPH_SetGridVis(hItem, 1);//启用网格
-
 		GRAPH_SetGridFixedX(hItem, 1);//固定方向网格
 		GRAPH_SetGridDistY(hItem, 25);//网格间距
 		GRAPH_SetGridDistX(hItem, 50);
@@ -255,13 +261,23 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
 		WM_RestartTimer(pMsg->Data.v, 300);
-		if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
+		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
 
 		//可以在这里获取ADC值
 		//if(!CHECKBOX_IsChecked(WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0)))
+		rtV++;
+		rtI++;
+		//刷新显示
+//		hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
+//        TEXT_SetText(hItem, rtI);
+//        hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6);
+//        TEXT_SetText(hItem, rtV);
+
+
 		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV);		//赋值到曲线
 		 GRAPH_DATA_YT_AddValue(pdataI, (I16)rtI);		//赋值到曲线
 		break;
+
   case WM_NOTIFY_PARENT:
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
@@ -379,11 +395,11 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
-        GRAPH_DATA_YT_AddValue(pdataV, (I16)6);	//赋值到曲线
+        //GRAPH_DATA_YT_AddValue(pdataV, (I16)6);	//赋值到曲线
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        GRAPH_DATA_YT_AddValue(pdataV, (I16)2);	//赋值到曲线
+        //GRAPH_DATA_YT_AddValue(pdataV, (I16)2);	//赋值到曲线
 
         // USER END
         break;
@@ -395,12 +411,15 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-        GRAPH_DATA_YT_AddValue(pdataI, (I16)3);	//赋值到曲线
+        //GRAPH_DATA_YT_AddValue(pdataI, (I16)3);	//赋值到曲线
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-         GRAPH_DATA_YT_AddValue(pdataI, (I16)20);	//赋值到曲线
+         //GRAPH_DATA_YT_AddValue(pdataI, (I16)20);	//赋值到曲线
+          rtV=10;
+          rtI=15;
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -425,7 +444,57 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       // USER END
       }
       break;
-    case ID_BUTTON_2: // Notifications sent by 'set1'
+    case ID_BUTTON_2: // Notifications sent by 'setV'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
+        EDIT_GetText(hItem,buffer,4);
+        rtV=buffer;
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+        case ID_BUTTON_3: // Notifications sent by 'setI'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电liu值
+        EDIT_GetText(hItem,buffer,4);
+        rtI=buffer;
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+        case ID_BUTTON_4: // Notifications sent by 'setF'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+        case ID_BUTTON_5: // Notifications sent by 'setW'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -689,7 +758,7 @@ void MainTask(void) {
 //    GUI_ExecDialogBox(_aDialogCreate,
 //                      GUI_COUNTOF(_aDialogCreate),
 //                      _cbDialog, WM_HBKWIN, 0, 0);             /* Execute the user dialog */
-    GUI_Delay(20);
+    GUI_Delay(50);
   }
 }
 
