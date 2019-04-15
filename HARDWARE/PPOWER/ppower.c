@@ -1,4 +1,5 @@
 #include "ppower.h"
+#include "delay.h"
 #include "usart.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //程控电源驱动 
@@ -9,17 +10,23 @@
 //All rights reserved									  
 //////////////////////////////////////////////////////////////////////////////////    
 //LED IO初始化
+u16 setV,setC,rtV,rtC;
 void power_Init(void)
 {
+	power_setC(1000);
+	delay_ms(50);
+	power_setV(0100);
 }
 
-void setSet_Currentout(u16 Set_Current)
+void power_setC(u16 Set_Current)
 {  
-  printf("awu%d\r\n",Set_Current);
+  printf("awu%4d\r\n",Set_Current);
+	setC=Set_Current;
 }
-void setSet_voltageout(u16 Set_voltage)
+void power_setV(u16 Set_voltage)
 {  
-  printf("awu%d\r\n",Set_voltage);
+  printf("awu%4d\r\n",Set_voltage);
+	setV=Set_voltage;	
 }
 
 void query_voltageout(void)
@@ -28,6 +35,15 @@ void query_voltageout(void)
 }
 
 void query_Current(void)
+{  
+  printf("ari\r\n");
+}
+
+void power_shutdown(void)
+{  
+  printf("ari\r\n");
+}
+void power_start(void)
 {  
   printf("ari\r\n");
 }

@@ -2,6 +2,7 @@
 #include "led.h"
 #include "delay.h"
 #include "sys.h"
+
 //////////////////////////////////////////////////////////////////////////////////
 //ALIENTEK Mini STM32开发板
 //PWM  驱动代码			   
@@ -132,11 +133,12 @@ void PWM_enable(){
 TIM_Cmd(TIM1, ENABLE);  //使能TIM1
 }
 
-//设置PWM占空比
+//设置PWM占空比0-100
 void PWM_SET_CD(u8 cd){	
 	PWM_val=(PWM_arr+1)*cd/100;
 	PWM_CD=cd;
-	TIM_SetCompare1(TIM1,PWM_val);
+	TIM1->CCR1=PWM_val;	
+	//TIM_SetCompare1(TIM1,PWM_val);
 }
 
 //设置PWM占空值

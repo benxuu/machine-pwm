@@ -10,9 +10,12 @@
 //All rights reserved									  
 //////////////////////////////////////////////////////////////////////////////////
 
-void PPOWER_Init(void);//初始化
-void setSet_Currentout(u16 Set_Current);
-void setSet_voltageout(u16 Set_voltage);	
+void power_Init(void);//初始化
+void power_setC(u16 Set_Current);
+void power_setV(u16 Set_voltage);	
 void query_voltageout(void); 
 void query_Current(void);
+void power_shutdown(void);
+void power_start(void);
+//?????????,?????;
 #endif

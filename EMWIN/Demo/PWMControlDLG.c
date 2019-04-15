@@ -1,8 +1,9 @@
-
 #include "DIALOG.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "sys.h"
+#include "pwm.h"
+#include "ppower.h"
 
 /*********************************************************************
 *
@@ -49,11 +50,13 @@
 static WM_HWIN hNumPad;
 static WM_HWIN hWin;
 static GRAPH_DATA_Handle  pdataV;
-static GRAPH_DATA_Handle  pdataI;
-int setV=0,setI=0,rtV,rtI;//电压、电流的设置值，当前实际值；
+static GRAPH_DATA_Handle  pdataC;
+extern u16 setV,setC,rtV,rtC;//电压、电流的设置值，当前实际值；
+extern u8  PWM_CD;// Õ¼¿Õ±È
+extern u16 PWM_fq;	// ÆµÂÊ
+char * uimsg; ;//界显示面消息
 char buf[4];
-extern u16 Out_Voltage;
-extern u16 Out_Current;
+ 
 //WM_HWIN hedit;
 
 // USER END
@@ -70,8 +73,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { TEXT_CreateIndirect, "I (10mA):", ID_TEXT_1, 26, 383, 80, 20, 0, 0x0, 0 },
   { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 324, 80, 30, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "W(us):", ID_TEXT_2, 276, 376, 64, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "F(Hz):", ID_TEXT_3, 276, 327, 63, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "W(%):", ID_TEXT_2, 276, 376, 64, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "F(KHz):", ID_TEXT_3, 276, 327, 63, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 540, 339, 90, 50, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 669, 340, 90, 50, 0, 0x0, 0 },
   { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
@@ -83,7 +86,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 202, 331, 50, 25, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setI", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 328, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 427, 378, 50, 25, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
@@ -110,9 +113,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
-    //
-    // Initialization of 'PWMControl'
-    //
     //
     // Initialization of 'PWMControl'
     //
@@ -202,7 +202,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_7);
-    TEXT_SetText(hItem, "RT I (10mA):");
+    TEXT_SetText(hItem, "RT C (10mA):");
     TEXT_SetFont(hItem, GUI_FONT_24_1);
     TEXT_SetTextColor(hItem, GUI_RED);
     //
@@ -260,8 +260,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		GRAPH_SCALE_SetTextColor(hScaleH, GUI_DARKGREEN);							//设置字体颜色
 		GRAPH_AttachScale(hItem, hScaleH);											//添加到水平方向
 
-		pdataI = GRAPH_DATA_YT_Create(GUI_RED, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
-		GRAPH_AttachData(hItem, pdataI);	 //为绘图控件添加数据对象
+		pdataC = GRAPH_DATA_YT_Create(GUI_RED, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
+		GRAPH_AttachData(hItem, pdataC);	 //为绘图控件添加数据对象
 		pdataV = GRAPH_DATA_YT_Create(GUI_GREEN, 500/*最大数据个数*/, 0, 0);		//创建一个数据曲线,可创建多个曲线
 		GRAPH_AttachData(hItem, pdataV);	 //为绘图控件添加数据对象
 
@@ -271,25 +271,19 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 		WM_RestartTimer(pMsg->Data.v, 500);
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
 
-		//可以在这里获取ADC值
-		//if(!CHECKBOX_IsChecked(WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0)))
-
-		rtV= Out_Voltage;
-		rtI= Out_Current;
-//rtV++;
-		//rtI++;
-
-		//刷新显示
-         // TEXT_SetText(WM_GetDialogItem(hWin,ID_TEXT_0), buf);
- 	hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
- 	sprintf(buf,  "%4d", rtI);
+ 
+//设置实时电压、电流标签数据刷新
+				sprintf(buf,  "%4d", rtC);
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);				
        TEXT_SetText(hItem,  buf);
-       hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6);
-       sprintf(buf,  "%4d", rtV);
-     TEXT_SetText(hItem,  buf);
 
+			sprintf(buf,  "%4d", rtV);
+       hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6); 
+			TEXT_SetText(hItem,  buf);
+
+//设置实时电压、电流曲线数据刷新
 		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV);		//赋值到曲线
-		 GRAPH_DATA_YT_AddValue(pdataI, (I16)rtI);		//赋值到曲线
+		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC);		//赋值到曲线
 		break;
 
   case WM_NOTIFY_PARENT:
@@ -304,8 +298,8 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
      if(Id<=ID_EDIT_3){
             WM_ShowWindow(hNumPad);
             WM_SetStayOnTop(hNumPad, 1);
-     WM_BringToTop(hNumPad);
-     }
+						WM_BringToTop(hNumPad);
+					}
      break;
     case WM_NOTIFICATION_RELEASED:
 //      if ((Id >= GUI_ID_USER) && (Id <= (GUI_ID_USER + GUI_COUNTOF(_aDialogNumPad) - 1))) {
@@ -408,15 +402,14 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-			Out_Voltage=1099;
-		 Out_Current=1000;
+			power_start();//开机，电源输出
+ 
         // USER END
-        //GRAPH_DATA_YT_AddValue(pdataV, (I16)6);	//赋值到曲线
+ 
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-        //GRAPH_DATA_YT_AddValue(pdataV, (I16)2);	//赋值到曲线
-
+ 
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -427,14 +420,13 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-        //GRAPH_DATA_YT_AddValue(pdataI, (I16)3);	//赋值到曲线
-		 Out_Voltage=12;
-		 Out_Current=20;
+        	power_shutdown();//开机，电源输出
+ 
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
-         //GRAPH_DATA_YT_AddValue(pdataI, (I16)20);	//赋值到曲线
+ 
          
         // USER END
         break;
@@ -465,8 +457,9 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
           hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
-        EDIT_GetText(hItem,buffer,4);        
-        rtV=atoi(buffer);
+					EDIT_GetText(hItem,buffer,4);        
+						setV=atoi(buffer);
+					power_setV(setV);
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -484,7 +477,8 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER START (Optionally insert code for reacting on notification message)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电压值
         EDIT_GetText(hItem,buffer,4);
-        rtI= atoi(buffer);
+        setC= atoi(buffer);
+				power_setC(setC);
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -500,6 +494,12 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+				hItem=WM_GetDialogItem(hWin,ID_EDIT_2);//获取设定频率值
+        EDIT_GetText(hItem,buffer,4);
+        PWM_fq= atoi(buffer);
+				PWM_Init_fq(PWM_fq);
+			
+			
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -515,6 +515,11 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+				hItem=WM_GetDialogItem(hWin,ID_EDIT_3);//获取设定占空比值
+        EDIT_GetText(hItem,buffer,4);
+        PWM_CD= atoi(buffer);
+				PWM_SET_CD(PWM_CD);//设置占空比
+			
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:

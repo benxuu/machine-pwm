@@ -12,7 +12,7 @@
 #include "pwm.h"
 #include "malloc.h"
 #include "GUI.h"
-#include "GUIDemo.h"
+//#include "GUIDemo.h"
 #include "PWMControlDLG.h"
 #include "WM.h"
 #include "DIALOG.h"
@@ -37,12 +37,10 @@ Author：徐斌
 Email：benxuu@163.com
 ************************************************/
 
+extern char uimessage[50];
+extern u16 setV,setC,rtV,rtC;
 
-extern u16 Out_Voltage;
-extern u16 Out_Current;
-extern int  rtV;
-extern int  rtI;
-
+extern char * uimsg;
 //UI显示
 void display_UI(void)
 {
@@ -75,7 +73,8 @@ void display_UI(void)
 } 
 int main(void)
 {	
-	u8 t; u8 len; 	
+	//u8 t; u8 len; 
+	u8 i;	
 	delay_init();	    	//延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(72,4800);  //串口初始化 
@@ -84,8 +83,9 @@ int main(void)
 	KEY_Init();	 			//按键初始化
  	TP_Init();				//触摸屏初始化
 	
-	//TIM1_PWM_Init(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
-	//TIM2_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz ,调压PWM
+	// TIM1_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz 
+	// TIM2_PWM_Init_Reg(899,0);//不分频。PWM频率=72000/(899+1)=80Khz ,调压PWM
+	PWM_Init_fq(10);//初始化频率为10khz
 	
 	TIM3_Int_Init(999,71);	//1KHZ 定时器1ms ,为STemwin提供时钟
 	TIM6_Int_Init(999,719);	//10ms中断,定时调用触摸屏处理函数
@@ -97,42 +97,35 @@ int main(void)
 	WM_SetCreateFlags(WM_CF_MEMDEV);	//?内存管理？
 	
 	GUI_Init();		//初始化GUI stemWin
-	display_UI();
-	
-	setSet_Currentout(1231);
-	delay_ms(2000);	
-	setSet_voltageout(3432);
+	display_UI();	
+	power_Init();//初始化程控电源模块
  
 	while(1){
-
 				 if(USART_RX_STA&0x8000)
 				{ 
 					//	len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
-						//printf("\r\n 您发送的消息为:\r\n");
+					//printf("\r\n 您发送的消息为:\r\n");
 						int m;
-			//USART_RX_BUF
-					if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='u')
-						{
-							//message="dian ya shen";
-					//表示设定电压成功
-					}else if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='i')
+					//USART_RX_BUF
+					if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='u'&& USART_RX_BUF[3]=='o')
 					{
-		//表示设定i成功
+						uimsg="Set U success!";	//表示设定电压成功					
+					}else if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='i'&& USART_RX_BUF[3]=='o')
+					{
+						uimsg="Set C success!";//表示设定i成功					
 					
 					}else if(USART_RX_BUF[1]=='r'&& USART_RX_BUF[2]=='u')
 					{
 					//表示read u
 						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
-						Out_Voltage=m;
-					}else if(USART_RX_BUF[1]=='r'&& USART_RX_BUF[2]=='i')
+						rtV=m;
+					}else if(USART_RX_BUF[1]=='r' && USART_RX_BUF[2]=='i')
 					{			
-						//表示read i
-		//				buffer4 =strncpy(*USART_RX_BUF,10,4);
-						//Out_Current=atoi(buffer4);
+						//表示read i	
 						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
-						Out_Current=m;
+						rtC=m;
 					}
-					
+					USART_RX_STA=0;
 					
 //						for(t=0;t<len;t++)
 //						{
@@ -140,8 +133,14 @@ int main(void)
 //							while((USART1->SR&0X40)==0);//等待发送结束
 //						}
 					//printf("\r\n\r\n");//插入换行
-					USART_RX_STA=0;
+					
+					
 				} 
+				i++;
+				if(i==50){ printf("aru\r\n");}//每2秒读一次电压
+				if(i==100){ printf("ari\r\n");i=0;}//每2秒读一次电流
+					
+				
 		GUI_Delay(20); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
 	
 	};
