@@ -13,9 +13,10 @@
 #include "malloc.h"
 #include "GUI.h"
 #include "GUIDemo.h"
-#include "FramewinDLG.h"
+#include "PWMControlDLG.h"
 #include "WM.h"
 #include "DIALOG.h"
+#include "ppower.h"
 
 /************************************************
 STemWin PWM 控制系统
@@ -37,6 +38,11 @@ Email：benxuu@163.com
 ************************************************/
 
 
+extern u16 Out_Voltage;
+extern u16 Out_Current;
+extern int  rtV;
+extern int  rtI;
+
 //UI显示
 void display_UI(void)
 {
@@ -54,17 +60,25 @@ void display_UI(void)
 	SCROLLBAR_SetDefaultSkin(SCROLLBAR_SKIN_FLEX);
 	SLIDER_SetDefaultSkin(SLIDER_SKIN_FLEX);
 	SPINBOX_SetDefaultSkin(SPINBOX_SKIN_FLEX);
-	CreateFramewin();
+	CreateUI();
+	
+//	 hWin=CreatePWMControl();
+//  hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
+//                                GUI_COUNTOF(_aDialogNumPad),
+//                                _cbDialogNumPad, WM_HBKWIN, 300, 200); /* Create the numpad dialog */
+// WM_HideWindow(hNumPad);
+	//CreateFramewin();
 //	while(1)
 //	{
 //		GUI_Delay(100); 
 //	}
 } 
 int main(void)
-{	 	
+{	
+	u8 t; u8 len; 	
 	delay_init();	    	//延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
-	uart_init(72,9600);  //串口初始化 
+	uart_init(72,4800);  //串口初始化 
  	//LED_Init();			    //LED端口初始化
 	TFTLCD_Init();			//LCD初始化	
 	KEY_Init();	 			//按键初始化
@@ -81,12 +95,54 @@ int main(void)
 	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC,ENABLE);//使能CRC时钟，否则STemWin不能使用 
 	WM_SetCreateFlags(WM_CF_MEMDEV);	//?内存管理？
+	
 	GUI_Init();		//初始化GUI stemWin
-	//GUIDEMO_Main();
 	display_UI();
-
+	
+	setSet_Currentout(1231);
+	delay_ms(2000);	
+	setSet_voltageout(3432);
+ 
 	while(1){
-		GUI_Delay(100); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
+
+				 if(USART_RX_STA&0x8000)
+				{ 
+					//	len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
+						//printf("\r\n 您发送的消息为:\r\n");
+						int m;
+			//USART_RX_BUF
+					if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='u')
+						{
+							//message="dian ya shen";
+					//表示设定电压成功
+					}else if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='i')
+					{
+		//表示设定i成功
+					
+					}else if(USART_RX_BUF[1]=='r'&& USART_RX_BUF[2]=='u')
+					{
+					//表示read u
+						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
+						Out_Voltage=m;
+					}else if(USART_RX_BUF[1]=='r'&& USART_RX_BUF[2]=='i')
+					{			
+						//表示read i
+		//				buffer4 =strncpy(*USART_RX_BUF,10,4);
+						//Out_Current=atoi(buffer4);
+						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
+						Out_Current=m;
+					}
+					
+					
+//						for(t=0;t<len;t++)
+//						{
+//							USART1->DR=USART_RX_BUF[t];
+//							while((USART1->SR&0X40)==0);//等待发送结束
+//						}
+					//printf("\r\n\r\n");//插入换行
+					USART_RX_STA=0;
+				} 
+		GUI_Delay(20); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
 	
 	};
 }

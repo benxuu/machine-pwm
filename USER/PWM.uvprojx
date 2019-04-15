@@ -649,9 +649,9 @@
           <GroupName>EMWIN_Demo</GroupName>
           <Files>
             <File>
-              <FileName>FramewinDLG.c</FileName>
+              <FileName>PWMControlDLG.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\EMWIN\Demo\GUIBulder\FramewinDLG.c</FilePath>
+              <FilePath>..\EMWIN\Demo\PWMControlDLG.c</FilePath>
             </File>
           </Files>
         </Group>

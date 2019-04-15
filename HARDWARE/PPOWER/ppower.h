@@ -11,6 +11,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 void PPOWER_Init(void);//≥ı ºªØ
-
-		 				    
+void setSet_Currentout(u16 Set_Current);
+void setSet_voltageout(u16 Set_voltage);	
+void query_voltageout(void); 
+void query_Current(void);
 #endif

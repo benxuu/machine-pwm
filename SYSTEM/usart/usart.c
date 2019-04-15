@@ -1,4 +1,7 @@
 #include "usart.h"	  
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //如果使用ucos,则包括下面的头文件即可.
 #if SYSTEM_SUPPORT_OS
@@ -49,7 +52,7 @@ struct __FILE
 /* FILE is typedef’ d in stdio.h. */ 
 FILE __stdout;       
 //定义_sys_exit()以避免使用半主机模式    
-_sys_exit(int x) 
+int _sys_exit(int x) 
 { 
 	x = x; 
 } 
@@ -76,6 +79,10 @@ u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
 //bit13~0，	接收到的有效字节数目
 u16 USART_RX_STA=0;       //接收状态标记	  
   
+u16 Out_Voltage;
+u16 Out_Current;
+
+
 void USART1_IRQHandler(void)
 {
 	u8 res;	
@@ -103,6 +110,9 @@ void USART1_IRQHandler(void)
 			}
 		}  		 									     
 	}
+//	powerhandle(USART_RX_BUF);
+//	USART_RX_STA=0;
+	
 #if SYSTEM_SUPPORT_OS 	//如果SYSTEM_SUPPORT_OS为真，则需要支持OS.
 	OSIntExit();  											 
 #endif
@@ -136,3 +146,31 @@ void uart_init(u32 pclk2,u32 bound)
 	MY_NVIC_Init(3,3,USART1_IRQn,2);//组2，最低优先级 
 #endif
 }
+
+//u8 buffer4[4];
+void powerhandle(u8 rdata[])
+		{
+			int m;
+			//USART_RX_BUF
+			if(rdata[1]=='w'&& rdata[2]=='u')
+				{
+					//message="dian ya shen";
+			//表示设定电压成功
+			}else if(rdata[1]=='w'&& rdata[2]=='i')
+			{
+//表示设定i成功
+			
+			}else if(rdata[1]=='r'&& rdata[2]=='u')
+			{
+			//表示read u
+				m=(rdata[10]-'0')*1000+(rdata[11]-'0')*100+(rdata[12]-'0')*10+rdata[13]-'0';//计算并转化返回值后4位
+				Out_Voltage=m;
+			}else if(rdata[1]=='r'&& rdata[2]=='i')
+			{			
+				//表示read i
+//				buffer4 =strncpy(*USART_RX_BUF,10,4);
+				//Out_Current=atoi(buffer4);
+			m=(rdata[10]-'0')*1000+(rdata[11]-'0')*100+(rdata[12]-'0')*10+rdata[13]-'0';//计算并转化返回值后4位
+		  Out_Current=m;
+			}
+		}

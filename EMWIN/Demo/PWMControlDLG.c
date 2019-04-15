@@ -2,6 +2,7 @@
 #include "DIALOG.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "sys.h"
 
 /*********************************************************************
 *
@@ -51,6 +52,8 @@ static GRAPH_DATA_Handle  pdataV;
 static GRAPH_DATA_Handle  pdataI;
 int setV=0,setI=0,rtV,rtI;//电压、电流的设置值，当前实际值；
 char buf[4];
+extern u16 Out_Voltage;
+extern u16 Out_Current;
 //WM_HWIN hedit;
 
 // USER END
@@ -270,8 +273,12 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 
 		//可以在这里获取ADC值
 		//if(!CHECKBOX_IsChecked(WM_GetDialogItem(pMsg->hWin, ID_CHECKBOX_0)))
-		rtV++;
-		rtI++;
+
+		rtV= Out_Voltage;
+		rtI= Out_Current;
+//rtV++;
+		//rtI++;
+
 		//刷新显示
          // TEXT_SetText(WM_GetDialogItem(hWin,ID_TEXT_0), buf);
  	hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);
@@ -401,6 +408,8 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
+			Out_Voltage=1099;
+		 Out_Current=1000;
         // USER END
         //GRAPH_DATA_YT_AddValue(pdataV, (I16)6);	//赋值到曲线
         break;
@@ -419,14 +428,14 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
         //GRAPH_DATA_YT_AddValue(pdataI, (I16)3);	//赋值到曲线
-
+		 Out_Voltage=12;
+		 Out_Current=20;
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
          //GRAPH_DATA_YT_AddValue(pdataI, (I16)20);	//赋值到曲线
-          rtV=10;
-          rtI=15;
+         
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
@@ -456,7 +465,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
           hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
-        EDIT_GetText(hItem,buffer,4);
+        EDIT_GetText(hItem,buffer,4);        
         rtV=atoi(buffer);
         // USER END
         break;
@@ -473,7 +482,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-  hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电压值
+				hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电压值
         EDIT_GetText(hItem,buffer,4);
         rtI= atoi(buffer);
         // USER END
@@ -748,36 +757,36 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
 *       MainTask
 */
 
-//void CreateUI(void){
-//hWin=CreatePWMControl();
-//hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
-//                                GUI_COUNTOF(_aDialogNumPad),
-//                                _cbDialogNumPad, WM_HBKWIN, 300, 200); /* Create the numpad dialog */
-// WM_HideWindow(hNumPad);
-//
-//}
-
-void MainTask(void) {
-
-
-  GUI_Init();
-   GUI_SetBkColor(GUI_RED);
- // WM_SetCallback(WM_HBKWIN, _cbDesktop);
-
- // hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
-  hWin=CreatePWMControl();
-  hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
+void CreateUI(void){
+hWin=CreatePWMControl();
+hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
                                 GUI_COUNTOF(_aDialogNumPad),
                                 _cbDialogNumPad, WM_HBKWIN, 300, 200); /* Create the numpad dialog */
  WM_HideWindow(hNumPad);
-  //WM_SetStayOnTop(hNumPad, 0);//0,clear setting，1，set keep on top
-  while (1) {
-       // GUI_ExecDialogBox(hWin);
-//    GUI_ExecDialogBox(_aDialogCreate,
-//                      GUI_COUNTOF(_aDialogCreate),
-//                      _cbDialog, WM_HBKWIN, 0, 0);             /* Execute the user dialog */
-    GUI_Delay(50);
-  }
+
 }
+
+//void MainTask(void) {
+
+
+//  GUI_Init();
+//   GUI_SetBkColor(GUI_RED);
+// // WM_SetCallback(WM_HBKWIN, _cbDesktop);
+
+// // hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+//  hWin=CreatePWMControl();
+//  hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
+//                                GUI_COUNTOF(_aDialogNumPad),
+//                                _cbDialogNumPad, WM_HBKWIN, 300, 200); /* Create the numpad dialog */
+// WM_HideWindow(hNumPad);
+//  //WM_SetStayOnTop(hNumPad, 0);//0,clear setting，1，set keep on top
+//  while (1) {
+//       // GUI_ExecDialogBox(hWin);
+////    GUI_ExecDialogBox(_aDialogCreate,
+////                      GUI_COUNTOF(_aDialogCreate),
+////                      _cbDialog, WM_HBKWIN, 0, 0);             /* Execute the user dialog */
+//    GUI_Delay(50);
+//  }
+//}
 
 

@@ -1,4 +1,5 @@
 #include "ppower.h"
+#include "usart.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //程控电源驱动 
 //修改日期:2019/3/20
@@ -8,14 +9,25 @@
 //All rights reserved									  
 //////////////////////////////////////////////////////////////////////////////////    
 //LED IO初始化
-void PPOWER_Init(void)
+void power_Init(void)
 {
- 
-  
 }
-//设置电压
-//void set_U(int 16 u)
-//{
-// printf();
-//  
-//}
+
+void setSet_Currentout(u16 Set_Current)
+{  
+  printf("awu%d\r\n",Set_Current);
+}
+void setSet_voltageout(u16 Set_voltage)
+{  
+  printf("awu%d\r\n",Set_voltage);
+}
+
+void query_voltageout(void)
+{  
+  printf("aru\r\n");
+}
+
+void query_Current(void)
+{  
+  printf("ari\r\n");
+}
