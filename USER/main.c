@@ -103,8 +103,6 @@ int main(void)
 	while(1){
 				 if(USART_RX_STA&0x8000)
 				{ 
-					//	len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
-					//printf("\r\n 您发送的消息为:\r\n");
 						int m;
 					//USART_RX_BUF
 					if(USART_RX_BUF[1]=='w'&& USART_RX_BUF[2]=='u'&& USART_RX_BUF[3]=='o')
@@ -125,20 +123,11 @@ int main(void)
 						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
 						rtC=m;
 					}
-					USART_RX_STA=0;
-					
-//						for(t=0;t<len;t++)
-//						{
-//							USART1->DR=USART_RX_BUF[t];
-//							while((USART1->SR&0X40)==0);//等待发送结束
-//						}
-					//printf("\r\n\r\n");//插入换行
-					
-					
+					USART_RX_STA=0; 
 				} 
 				i++;
-				if(i==100){ printf("aru\r\n");}//每2秒读一次电压
-				if(i==200){ printf("ari\r\n");i=0;}//每2秒读一次电流
+				if(i==100){ query_Current();}//每2秒读一次电压
+				if(i==200){ query_voltageout();i=0;}//每2秒读一次电流
 					
 				
 		GUI_Delay(50); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
