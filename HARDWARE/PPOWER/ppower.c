@@ -20,12 +20,12 @@ void power_Init(void)
 
 void power_setC(u16 Set_Current)
 {  
-  printf("awu%4d\r\n",Set_Current);
+  printf("awu%d\r\n",Set_Current);
 	setC=Set_Current;
 }
 void power_setV(u16 Set_voltage)
 {  
-  printf("awu%4d\r\n",Set_voltage);
+  printf("awu%d\r\n",Set_voltage);
 	setV=Set_voltage;	
 }
 

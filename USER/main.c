@@ -137,11 +137,11 @@ int main(void)
 					
 				} 
 				i++;
-				if(i==50){ printf("aru\r\n");}//每2秒读一次电压
-				if(i==100){ printf("ari\r\n");i=0;}//每2秒读一次电流
+				if(i==100){ printf("aru\r\n");}//每2秒读一次电压
+				if(i==200){ printf("ari\r\n");i=0;}//每2秒读一次电流
 					
 				
-		GUI_Delay(20); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
+		GUI_Delay(50); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
 	
 	};
 }

@@ -52,6 +52,7 @@
 #define ID_BUTTON_3            (GUI_ID_USER + 0x14)
 #define ID_BUTTON_4            (GUI_ID_USER + 0x15)
 #define ID_BUTTON_5            (GUI_ID_USER + 0x16)
+#define ID_TEXT_10            (GUI_ID_USER + 0x17)
 
 
 // USER START (Optionally insert additional defines)
@@ -72,7 +73,7 @@
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, -2, 1, 800, 480, 0, 0x64, 0 },
+  { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, -28, 1, 800, 480, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 325, 80, 30, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 30, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "V (10mV):", ID_TEXT_0, 20, 327, 85, 20, 0, 0x0, 0 },
@@ -85,16 +86,17 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 669, 340, 90, 50, 0, 0x0, 0 },
   { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 436, 780, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 507, 117, 162, 29, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 171, 137, 27, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 511, 81, 162, 29, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 666, 82, 80, 25, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 121, 137, 27, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 666, 122, 80, 20, 0, 0x64, 0 },
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 202, 331, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setI", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 328, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 427, 378, 50, 25, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260, 261, 38, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -209,7 +211,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Text'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_7);
-    TEXT_SetText(hItem, "RT I (10mA):");
+    TEXT_SetText(hItem, "RT C(10mA):");
     TEXT_SetFont(hItem, GUI_FONT_24_1);
     //
     // Initialization of 'lbrc'
@@ -245,6 +247,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
     BUTTON_SetFont(hItem, GUI_FONT_20_1);
+    //
+    // Initialization of 'uimsg'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+    TEXT_SetText(hItem, "running");
+    TEXT_SetFont(hItem, GUI_FONT_20_1);
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;

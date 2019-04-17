@@ -4,6 +4,7 @@
 #include "sys.h"
 #include "pwm.h"
 #include "ppower.h"
+#include "string.h"
 
 /*********************************************************************
 *
@@ -34,6 +35,7 @@
 #define ID_BUTTON_3            (GUI_ID_USER + 0x14)
 #define ID_BUTTON_4            (GUI_ID_USER + 0x15)
 #define ID_BUTTON_5            (GUI_ID_USER + 0x16)
+#define ID_TEXT_10            (GUI_ID_USER + 0x17)
 
 
 // USER START (Optionally insert additional defines)
@@ -54,8 +56,9 @@ static GRAPH_DATA_Handle  pdataC;
 extern u16 setV,setC,rtV,rtC;//电压、电流的设置值，当前实际值；
 extern u8  PWM_CD;// Õ¼¿Õ±È
 extern u16 PWM_fq;	// ÆµÂÊ
-char * uimsg; ;//界显示面消息
+char * uimsg;//界显示面消息
 char buf[4];
+//char msgHead[20]="msg:";
  
 //WM_HWIN hedit;
 
@@ -89,6 +92,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 328, 50, 25, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 427, 378, 50, 25, 0, 0x0, 0 },
+	 { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260, 261, 38, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -127,13 +131,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'tb_dianya'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-    EDIT_SetText(hItem, "123");
+    EDIT_SetText(hItem, "500");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'tb_dianliu'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-    EDIT_SetText(hItem, "123");
+    EDIT_SetText(hItem, "1000");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'V (10mV):'
@@ -149,13 +153,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Edit'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-    EDIT_SetText(hItem, "123");
+    EDIT_SetText(hItem, "20");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'Edit'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-    EDIT_SetText(hItem, "123");
+    EDIT_SetText(hItem, "50");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'W(us):'
@@ -240,6 +244,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_5);
     BUTTON_SetFont(hItem, GUI_FONT_20_1);
+		   //
+    // Initialization of 'uimsg'
+    //
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+    TEXT_SetText(hItem, "running");
+    TEXT_SetFont(hItem, GUI_FONT_20_1);
     //
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
@@ -253,9 +263,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		GRAPH_SetVSizeY(hItem, 11);//y范围
 		hScaleV = GRAPH_SCALE_Create(30, GUI_TA_RIGHT, GRAPH_SCALE_CF_VERTICAL, 20);//创建和增加垂直范围尺度标签
 		GRAPH_SCALE_SetTextColor(hScaleV, GUI_RED);									//设置标签字体颜色
-		 GRAPH_SCALE_SetFactor(hScaleV,0.05);//像素到刻度的计算因子
-		GRAPH_AttachScale(hItem, hScaleV);
-													//将标签添加到垂直方向
+		 GRAPH_SCALE_SetFactor(hScaleV,0.05);				//像素到刻度的计算因子
+		GRAPH_AttachScale(hItem, hScaleV);					//将标签添加到垂直方向
 		hScaleH = GRAPH_SCALE_Create(225, GUI_TA_HCENTER, GRAPH_SCALE_CF_HORIZONTAL, 50);	//创建和增加水平范围尺度标签
 		GRAPH_SCALE_SetTextColor(hScaleH, GUI_DARKGREEN);							//设置字体颜色
 		GRAPH_AttachScale(hItem, hScaleH);											//添加到水平方向
@@ -270,7 +279,6 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
 		WM_RestartTimer(pMsg->Data.v, 500);
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
-
  
 //设置实时电压、电流标签数据刷新
 				sprintf(buf,  "%4d", rtC);
@@ -282,8 +290,12 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 			TEXT_SetText(hItem,  buf);
 
 //设置实时电压、电流曲线数据刷新
-		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV);		//赋值到曲线
-		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC);		//赋值到曲线
+		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV/5);		//赋值到曲线,根据像素标量比例0.05，换算系数除5
+		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC/5);		//赋值到曲线
+
+//界面消息刷新
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+				TEXT_SetText(hItem, uimsg);
 		break;
 
   case WM_NOTIFY_PARENT:
@@ -402,9 +414,11 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-			power_start();//开机，电源输出
- 
-        // USER END
+				power_start();//开机，电源输出
+			uimsg=" starting";	// 
+//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//				TEXT_SetText(hItem, "");
+					// USER END
  
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -420,7 +434,10 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-        	power_shutdown();//开机，电源输出
+        	power_shutdown();//关机，电源输出
+					uimsg=" shutdown!";	// 
+//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//					TEXT_SetText(hItem, "");
  
         // USER END
         break;
@@ -458,8 +475,14 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER START (Optionally insert code for reacting on notification message)
           hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
 					EDIT_GetText(hItem,buffer,4);        
-						setV=atoi(buffer);
-					power_setV(setV);
+					setV=atoi(buffer);
+					power_setV(setV); 				
+					uimsg="setV";
+//					strcat(uimsg,buffer);
+//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//					TEXT_SetText(hItem,uimsg );
+//			hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//				TEXT_SetText(hItem, uimsg);
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -475,10 +498,16 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
-				hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电压值
+				hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电流值
         EDIT_GetText(hItem,buffer,4);
         setC= atoi(buffer);
 				power_setC(setC);
+				uimsg="setC";
+//					strcat(uimsg,buffer);
+//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//					TEXT_SetText(hItem,uimsg );
+//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//				TEXT_SetText(hItem, strcat("setC=",buffer));
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -498,6 +527,12 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         EDIT_GetText(hItem,buffer,4);
         PWM_fq= atoi(buffer);
 				PWM_Init_fq(PWM_fq);
+				uimsg="setF";
+//					strcat(uimsg,buffer);
+//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//					TEXT_SetText(hItem,uimsg );
+//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//				TEXT_SetText(hItem, strcat("setF=",buffer));
 			
 			
         // USER END
@@ -519,7 +554,12 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         EDIT_GetText(hItem,buffer,4);
         PWM_CD= atoi(buffer);
 				PWM_SET_CD(PWM_CD);//设置占空比
-			
+				uimsg="setW";
+//					strcat(uimsg,buffer);
+//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//					TEXT_SetText(hItem,uimsg );
+//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//				TEXT_SetText(hItem, strcat("setW=",buffer));
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
