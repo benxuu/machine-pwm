@@ -69,30 +69,55 @@ char buf[4];
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
+//  { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, -2, 1, 800, 480, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 325, 80, 30, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 30, 0, 0x64, 0 },
+//  { TEXT_CreateIndirect, "V (10mV):", ID_TEXT_0, 20, 327, 85, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "I (10mA):", ID_TEXT_1, 26, 383, 80, 20, 0, 0x0, 0 },
+//  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 324, 80, 30, 0, 0x64, 0 },
+//  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 30, 0, 0x64, 0 },
+//  { TEXT_CreateIndirect, "W(%):", ID_TEXT_2, 276, 376, 64, 20, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "F(KHz):", ID_TEXT_3, 276, 327, 63, 20, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 540, 339, 90, 50, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 669, 340, 90, 50, 0, 0x0, 0 },
+//  { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 436, 780, 20, 0, 0x64, 0 },
+//  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 507, 117, 162, 29, 0, 0x64, 0 },
+//  { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },//电压显示
+//  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 171, 137, 27, 0, 0x64, 0 },
+//  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },//电流显示
+//  { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
+//  { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
+//  { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 202, 331, 50, 25, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 328, 50, 25, 0, 0x0, 0 },
+//  { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 427, 378, 50, 25, 0, 0x0, 0 },
+//	 { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260, 261, 38, 0, 0x64, 0 }
+
   { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, -2, 1, 800, 480, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 325, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 30, 0, 0x64, 0 },
+  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 325, 80, 30, 0, 0x4, 0 },
+  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 30, 0, 0x4, 0 },
   { TEXT_CreateIndirect, "V (10mV):", ID_TEXT_0, 20, 327, 85, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "I (10mA):", ID_TEXT_1, 26, 383, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 324, 80, 30, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 30, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "W(%):", ID_TEXT_2, 276, 376, 64, 20, 0, 0x0, 0 },
-  { TEXT_CreateIndirect, "F(KHz):", ID_TEXT_3, 276, 327, 63, 20, 0, 0x0, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 325, 80, 30, 0, 0x4, 0 },
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 30, 0, 0x4, 0 },
+  { TEXT_CreateIndirect, "W(%):", ID_TEXT_2, 282, 376, 64, 20, 0, 0x0, 0 },
+  { TEXT_CreateIndirect, "F(KHz):", ID_TEXT_3, 270, 327, 63, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 540, 339, 90, 50, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 669, 340, 90, 50, 0, 0x0, 0 },
   { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 436, 780, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 507, 117, 162, 29, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 510, 117, 160, 29, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },//电压显示
-  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 171, 137, 27, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },//电流显示
+  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 510, 171, 160, 29, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 665, 174, 80, 25, 0, 0x64, 0 },//电流显示
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 202, 331, 50, 25, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 379, 50, 25, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 328, 50, 25, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 427, 378, 50, 25, 0, 0x0, 0 },
-	 { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260, 261, 38, 0, 0x64, 0 },
+  { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 203, 323, 60, 35, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 373, 60, 35, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 323, 60, 35, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 425, 373, 60, 35, 0, 0x0, 0 },
+    { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260,261, 38, 0, 0x64, 0 }
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -277,7 +302,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		break;
 
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
-		WM_RestartTimer(pMsg->Data.v, 500);
+		WM_RestartTimer(pMsg->Data.v, 300);
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
  
 //设置实时电压、电流标签数据刷新
@@ -672,26 +697,49 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
 //
 //  Function                 Text      Id                 Px   Py   Dx   Dy
 //
-  { WINDOW_CreateIndirect,   0,        0,                225, 110,  125, 130},
-  { BUTTON_CreateIndirect,   "7",      GUI_ID_USER +  7,   5,   5,  25,  20},
-  { BUTTON_CreateIndirect,   "8",      GUI_ID_USER +  8,  35,   5,  25,  20},
-  { BUTTON_CreateIndirect,   "9",      GUI_ID_USER +  9,  65,   5,  25,  20},
-   { BUTTON_CreateIndirect,   "Bak",    GUI_ID_USER +  15,  95,   5,  25,  45},
-  { BUTTON_CreateIndirect,   "4",      GUI_ID_USER +  4,   5,  30,  25,  20},
-  { BUTTON_CreateIndirect,   "5",      GUI_ID_USER +  5,  35,  30,  25,  20},
-  { BUTTON_CreateIndirect,   "6",      GUI_ID_USER +  6,  65,  30,  25,  20},
-  { BUTTON_CreateIndirect,   "1",      GUI_ID_USER +  1,   5,  55,  25,  20},
-  { BUTTON_CreateIndirect,   "2",      GUI_ID_USER +  2,  35,  55,  25,  20},
-  { BUTTON_CreateIndirect,   "3",      GUI_ID_USER +  3,  65,  55,  25,  20},
-  { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   5,  80,  25,  20},
-  { BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  35,  80,  25,  20},
-  { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  65,  80,  25,  20},
-  { BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   5, 105,  25,  20},
-  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 13,  35, 105,  25,  20},
-  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 14,  65, 105,  25,  20},
+//  { WINDOW_CreateIndirect,   0,        0,                225, 110,  125, 130},
+//  { BUTTON_CreateIndirect,   "7",      GUI_ID_USER +  7,   5,   5,  25,  20},
+//  { BUTTON_CreateIndirect,   "8",      GUI_ID_USER +  8,  35,   5,  25,  20},
+//  { BUTTON_CreateIndirect,   "9",      GUI_ID_USER +  9,  65,   5,  25,  20},
+//   { BUTTON_CreateIndirect,   "Bak",    GUI_ID_USER +  15,  95,   5,  25,  45},
+//  { BUTTON_CreateIndirect,   "4",      GUI_ID_USER +  4,   5,  30,  25,  20},
+//  { BUTTON_CreateIndirect,   "5",      GUI_ID_USER +  5,  35,  30,  25,  20},
+//  { BUTTON_CreateIndirect,   "6",      GUI_ID_USER +  6,  65,  30,  25,  20},
+//  { BUTTON_CreateIndirect,   "1",      GUI_ID_USER +  1,   5,  55,  25,  20},
+//  { BUTTON_CreateIndirect,   "2",      GUI_ID_USER +  2,  35,  55,  25,  20},
+//  { BUTTON_CreateIndirect,   "3",      GUI_ID_USER +  3,  65,  55,  25,  20},
+//  { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   5,  80,  25,  20},
+//  { BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  35,  80,  25,  20},
+//  { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  65,  80,  25,  20},
+//  { BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   5, 105,  25,  20},
+//  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 13,  35, 105,  25,  20},
+//  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 14,  65, 105,  25,  20},
 
-   { BUTTON_CreateIndirect,   "Ent",    GUI_ID_USER +  16,  95,   85,  25,  30},
-   { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  95,   50,  25,  30},
+//   { BUTTON_CreateIndirect,   "Ent",    GUI_ID_USER +  16,  95,   85,  25,  30},
+//   { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  95,   50,  25,  30},
+	 
+	 
+	  { WINDOW_CreateIndirect,   0,        0,                200, 90,  135, 130},
+  { BUTTON_CreateIndirect,   "7",      GUI_ID_USER +  7,   2,   2,  30,  30},
+  { BUTTON_CreateIndirect,   "8",      GUI_ID_USER +  8,  34,   2,  30,  30},
+  { BUTTON_CreateIndirect,   "9",      GUI_ID_USER +  9,  66,   2,  30,  30},
+   { BUTTON_CreateIndirect,   "Bak",    GUI_ID_USER +  15,  98,   45,  32,  40},
+  { BUTTON_CreateIndirect,   "4",      GUI_ID_USER +  4,   2,  34,  30,  30},
+  { BUTTON_CreateIndirect,   "5",      GUI_ID_USER +  5,  34,  34,  30,  30},
+  { BUTTON_CreateIndirect,   "6",      GUI_ID_USER +  6,  66,  34,  30,  30},
+  { BUTTON_CreateIndirect,   "1",      GUI_ID_USER +  1,   2,  66,  30,  30},
+  { BUTTON_CreateIndirect,   "2",      GUI_ID_USER +  2,  34,  66,  30,  30},
+  { BUTTON_CreateIndirect,   "3",      GUI_ID_USER +  3,  66,  66,  30,  30},
+  { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   2,  98,  30,  30},
+  { BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  200,  200,  1,  1},
+  { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  98,  88,  32,  40},
+  { BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   200, 200,  1,  1},
+  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 13,  34, 98,  30,  30},
+  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 14,  66, 98,  30,  30},
+
+   { BUTTON_CreateIndirect,   "Ent",    GUI_ID_USER +  16,  200,   200,  1,  1},
+   { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  98,   2,  32,  40}
+	 
 };
 
 //

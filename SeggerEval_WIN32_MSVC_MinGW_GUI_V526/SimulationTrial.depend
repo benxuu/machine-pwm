@@ -254,3 +254,9 @@
 
 1407499607 i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\gui\include\gui_sim_win32.h
 
+1556414174 source:i:\my github\machine-pwm\seggereval_win32_msvc_mingw_gui_v526\application\pwmcontroldlg.c
+	"DIALOG.h"
+	"stdio.h"
+	"stdlib.h"
+	"string.h"
+

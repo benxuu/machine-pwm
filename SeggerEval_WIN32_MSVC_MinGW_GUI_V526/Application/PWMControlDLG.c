@@ -63,6 +63,7 @@ char buf[4];
 
 // USER END
 
+
 /*********************************************************************
 *
 *       _aDialogCreate
@@ -81,17 +82,17 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "STOP", ID_BUTTON_1, 669, 340, 90, 50, 0, 0x0, 0 },
   { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 10, 56, 480, 240, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_4, 0, 436, 780, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 507, 117, 162, 29, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Text", ID_TEXT_5, 510, 117, 160, 29, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "lbrv", ID_TEXT_6, 665, 117, 80, 25, 0, 0x64, 0 },//电压显示
-  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 513, 171, 137, 27, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 667, 174, 80, 20, 0, 0x64, 0 },//电流显示
+  { TEXT_CreateIndirect, "Text", ID_TEXT_7, 510, 171, 160, 29, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 665, 174, 80, 25, 0, 0x64, 0 },//电流显示
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 203, 323, 60, 35, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 373, 60, 35, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 323, 60, 35, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 425, 373, 60, 35, 0, 0x0, 0 },
-	 { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260,261, 38, 0, 0x64, 0 },
+    { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260,261, 38, 0, 0x64, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
