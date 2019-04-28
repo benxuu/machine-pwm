@@ -529,12 +529,9 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         PWM_fq= atoi(buffer);
 				PWM_Init_fq(PWM_fq);
 				uimsg="setF";
-//					strcat(uimsg,buffer);
-//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//					TEXT_SetText(hItem,uimsg );
-//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//				TEXT_SetText(hItem, strcat("setF=",buffer));
-			
+			//设定频率后，占空比清零，需要重新设置占空比
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
+				EDIT_SetText(hItem, "50"); 
 			
         // USER END
         break;
@@ -556,11 +553,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         PWM_CD= atoi(buffer);
 				PWM_SET_CD(PWM_CD);//设置占空比
 				uimsg="setW";
-//					strcat(uimsg,buffer);
-//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//					TEXT_SetText(hItem,uimsg );
-//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//				TEXT_SetText(hItem, strcat("setW=",buffer));
+
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -573,15 +566,6 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       }
       break;
 
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-
-
-
-  //    break;
-
-    // USER START (Optionally insert additional code for further Ids)
-    // USER END
     }
     break;
   // USER START (Optionally insert additional message handling)
@@ -722,11 +706,6 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
 // Dialog resource of user dialog
 //
 
-
-//
-// Title of sample
-//
-//static char _aTitle[] = {"WIDGET_NumPad"};
 
 
 /*********************************************************************
