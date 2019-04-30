@@ -15,7 +15,7 @@
 //PWM输出初始化
 //arr：自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
 //psc：时钟预分频数
-u8  PWM_CD;// 占空比
+u8  PWM_DC;// 占空比
 u16 PWM_fq;	// 频率
 u16 PWM_arr=899;	// 自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
 u16 PWM_val=0;//time1定时器值，占空比细调
@@ -159,9 +159,9 @@ TIM_Cmd(TIM1, ENABLE);  //使能TIM1
 }
 
 //设置PWM占空比0-100
-void PWM_SET_CD(u8 cd){	
-	PWM_val=(PWM_arr+1)*cd/100;
-	PWM_CD=cd;
+void PWM_SET_DC(u8 dutyCycle){	
+	PWM_val=(PWM_arr+1)*dutyCycle/100;
+	PWM_DC=dutyCycle;
 	TIM1->CCR1=PWM_val;	
 	//TIM_SetCompare1(TIM1,PWM_val);
 }
@@ -176,16 +176,13 @@ void PWM_SET_val(u16 val){
 //上调PWM占空值
 void PWM_up(u16 val){
 	TIM1->CCR1+=val;
-//	PWM_val+=val;	
-//	TIM_SetCompare1(TIM1,PWM_val);
+
 }
 //下调PWM占空值
 void PWM_down(u16 val){	
 	if(TIM1->CCR1<val){TIM1->CCR1=0;}
-	else TIM1->CCR1-=val;	
-//	PWM_val-=val;
-//	if (PWM_val>60000) PWM_val=0;	
-//	TIM_SetCompare1(TIM1,PWM_val);
+	else TIM1->CCR1-=val;
+
 }
 
 //pwm演示，led0亮度自动变化

@@ -17,7 +17,7 @@ void PWM_disable(void);  //禁用TIM1
 void PWM_enable(void);
 
 //设置PWM占空比
-void PWM_SET_CD(u8 cd);
+void PWM_SET_DC(u8 cd);
 
 //设置PWM占空值
 void PWM_SET_val(u16 val);

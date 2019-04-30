@@ -49,18 +49,27 @@
 */
 
 // USER START (Optionally insert additional static data)
+
+ 
+
+
+
 static WM_HWIN hNumPad;
 static WM_HWIN hWin;
 static GRAPH_DATA_Handle  pdataV;
 static GRAPH_DATA_Handle  pdataC;
 extern u16 setV,setC,rtV,rtC;//电压、电流的设置值，当前实际值；
-extern u8  PWM_CD;// Õ¼¿Õ±È
-extern u16 PWM_fq;	// ÆµÂÊ
+extern u8  PWM_DC;//占空比
+extern u16 PWM_fq;	//频率
 char * uimsg;//界显示面消息
 char buf[4];
-//char msgHead[20]="msg:";
- 
-//WM_HWIN hedit;
+const u16 maxV=1000;//定义最大电压，10V
+const u16 maxC=1000;//最大电流，10A
+const u8 max_PWM_fq=50;//最大频率50khz，周期，20us；
+const u8 min_Pulse_interval=10;//最小脉冲间隔10us；
+const u8 max_PWM_DC=100;//最大占空比 100；
+
+
 
 // USER END
 
@@ -151,16 +160,16 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_1);
     TEXT_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'Edit'
+    // Initialization of 'Edit'，频率，KHZ
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-    EDIT_SetText(hItem, "20");
+    EDIT_SetText(hItem, "10");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
-    // Initialization of 'Edit'
+    // Initialization of 'Edit'，占空比
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-    EDIT_SetText(hItem, "50");
+    EDIT_SetText(hItem, "40");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'W(us):'
@@ -286,7 +295,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);				
        TEXT_SetText(hItem,  buf);
 
-			sprintf(buf,  "%4d", rtV);
+				sprintf(buf,  "%4d", rtV);
        hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6); 
 			TEXT_SetText(hItem,  buf);
 
@@ -295,7 +304,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC/5);		//赋值到曲线
 
 //界面消息刷新
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
 				TEXT_SetText(hItem, uimsg);
 		break;
 
@@ -328,17 +337,12 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 //      }
       break;
     }
-  //
+ 
 
     switch(Id) {
     case ID_EDIT_0: // Notifications sent by 'tb_dianya'
       switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-
-        //WM_BringToTop(hNumPad);
-
+      case WM_NOTIFICATION_CLICKED: 
 
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -360,10 +364,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-         // WM_BringToTop(hNumPad);
-         //WM_SetStayOnTop(hNumPad, 1);
+ 
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -378,7 +379,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
-        //WM_SetStayOnTop(hNumPad, 1);
+ 
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -397,7 +398,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
-        //WM_SetStayOnTop(hNumPad, 1);
+ 
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -416,9 +417,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				power_start();//开机，电源输出
-			uimsg=" starting";	// 
-//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//				TEXT_SetText(hItem, "");
+				uimsg=" starting";	//  
 					// USER END
  
         break;
@@ -436,9 +435,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
         	power_shutdown();//关机，电源输出
-					uimsg=" shutdown!";	// 
-//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//					TEXT_SetText(hItem, "");
+					uimsg=" shutdown!";	//  
  
         // USER END
         break;
@@ -452,24 +449,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       // USER END
       }
       break;
-    case ID_HEADER_0: // Notifications sent by 'Header'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_MOVED_OUT:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
+
     case ID_BUTTON_2: // Notifications sent by 'setV'设定电压
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
@@ -477,13 +457,14 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
           hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
 					EDIT_GetText(hItem,buffer,4);        
 					setV=atoi(buffer);
+					if(setV > maxV){//UI将设置电压重置为最大电压；
+							setV=maxV;
+							sprintf(buf,  "%4d", maxV);
+							EDIT_SetText(hItem,buf);
+							}
 					power_setV(setV); 				
-					uimsg="setV";
-//					strcat(uimsg,buffer);
-//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//					TEXT_SetText(hItem,uimsg );
-//			hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//				TEXT_SetText(hItem, uimsg);
+					uimsg="Set Pulse Voltage!";
+ 
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -502,13 +483,14 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电流值
         EDIT_GetText(hItem,buffer,4);
         setC= atoi(buffer);
+				if(setC > maxC){//UI将设置电压重置为最大电压；
+								setV=maxC;
+								sprintf(buf,  "%4d", maxC);
+								EDIT_SetText(hItem,buf);
+								}
 				power_setC(setC);
-				uimsg="setC";
-//					strcat(uimsg,buffer);
-//					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//					TEXT_SetText(hItem,uimsg );
-//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-//				TEXT_SetText(hItem, strcat("setC=",buffer));
+				uimsg="Set Pulse Current!";
+ 
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -520,15 +502,21 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       // USER END
       }
       break;
-        case ID_BUTTON_4: // Notifications sent by 'setF'
+   case ID_BUTTON_4: // Notifications sent by 'setF'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_2);//获取设定频率值
-        EDIT_GetText(hItem,buffer,4);
+        EDIT_GetText(hItem,buffer,2);
         PWM_fq= atoi(buffer);
+				if(PWM_fq > max_PWM_fq){//UI将设置电压重置为最大电压；
+									PWM_fq=max_PWM_fq;
+									sprintf(buf,  "%2d", max_PWM_fq);
+									EDIT_SetText(hItem,buf);
+									}
+			
 				PWM_Init_fq(PWM_fq);
-				uimsg="setF";
+				uimsg="Set Pulse Frequency!";
 			//设定频率后，占空比清零，需要重新设置占空比
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
 				EDIT_SetText(hItem, "50"); 
@@ -544,21 +532,45 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       // USER END
       }
       break;
-        case ID_BUTTON_5: // Notifications sent by 'setW'
+	case ID_BUTTON_5: // Notifications sent by 'setW'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_3);//获取设定占空比值
         EDIT_GetText(hItem,buffer,4);
-        PWM_CD= atoi(buffer);
-				PWM_SET_CD(PWM_CD);//设置占空比
-				uimsg="setW";
+        PWM_DC= atoi(buffer);
+				if(PWM_DC > max_PWM_DC){//UI将设置电压重置为最大电压；
+									PWM_DC=max_PWM_DC;
+									sprintf(buf,  "%2d", max_PWM_DC);
+									EDIT_SetText(hItem,buf);
+									}			
+			
+				PWM_SET_DC(PWM_DC);//设置占空比
+				uimsg="Set Duty Cycle";
 
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
 
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+ case ID_HEADER_0: // Notifications sent by 'Header'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_MOVED_OUT:
+        // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;
       // USER START (Optionally insert additional code for further notification handling)
