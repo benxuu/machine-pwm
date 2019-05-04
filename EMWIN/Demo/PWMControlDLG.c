@@ -80,12 +80,12 @@ const u8 max_PWM_DC=100;//最大占空比 100；
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = { 
 
   { FRAMEWIN_CreateIndirect, "PWMControl", ID_FRAMEWIN_0, -2, 1, 800, 480, 0, 0x64, 0 },
-  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 325, 80, 30, 0, 0x4, 0 },//设定电压
-  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 30, 0, 0x4, 0 },//设定电流
+  { EDIT_CreateIndirect, "tb_dianya", ID_EDIT_0, 110, 321, 80, 40, 0, 0x4, 0 },//设定电压
+  { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 40, 0, 0x4, 0 },//设定电流
   { TEXT_CreateIndirect, "V (10mV):", ID_TEXT_0, 20, 327, 85, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "I (10mA):", ID_TEXT_1, 26, 383, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 325, 80, 30, 0, 0x4, 0 },//设定频率
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 30, 0, 0x2, 0 },//设定占空比
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 321, 80, 40, 0, 0x4, 0 },//设定频率
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 40, 0, 0x2, 0 },//设定占空比
   { TEXT_CreateIndirect, "W(%):", ID_TEXT_2, 282, 376, 64, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "F(KHz):", ID_TEXT_3, 270, 327, 63, 20, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "START", ID_BUTTON_0, 540, 339, 90, 50, 0, 0x0, 0 },
@@ -98,10 +98,10 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { TEXT_CreateIndirect, "lbrc", ID_TEXT_8, 665, 174, 80, 25, 0, 0x64, 0 },//电流显示
   { HEADER_CreateIndirect, "Header", ID_HEADER_0, 0, 0, 793, 44, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "Text", ID_TEXT_9, 0, 0, 792, 40, 0, 0x64, 0 },
-  { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 203, 323, 60, 35, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 203, 373, 60, 35, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 425, 323, 60, 35, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 425, 373, 60, 35, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setV", ID_BUTTON_2, 199, 320, 64, 41, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 199, 375, 64, 41, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 423, 320, 64, 41, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 423, 375, 64, 41, 0, 0x0, 0 },
     { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260,261, 38, 0, 0x64, 0 }
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -691,26 +691,26 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
 //   { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  95,   50,  25,  30},
 	 
 	 
-	  { WINDOW_CreateIndirect,   0,        0,                200, 90,  135, 130},
-  { BUTTON_CreateIndirect,   "7",      GUI_ID_USER +  7,   2,   2,  30,  30},
-  { BUTTON_CreateIndirect,   "8",      GUI_ID_USER +  8,  34,   2,  30,  30},
-  { BUTTON_CreateIndirect,   "9",      GUI_ID_USER +  9,  66,   2,  30,  30},
-   { BUTTON_CreateIndirect,   "Bak",    GUI_ID_USER +  15,  98,   45,  32,  40},
-  { BUTTON_CreateIndirect,   "4",      GUI_ID_USER +  4,   2,  34,  30,  30},
-  { BUTTON_CreateIndirect,   "5",      GUI_ID_USER +  5,  34,  34,  30,  30},
-  { BUTTON_CreateIndirect,   "6",      GUI_ID_USER +  6,  66,  34,  30,  30},
-  { BUTTON_CreateIndirect,   "1",      GUI_ID_USER +  1,   2,  66,  30,  30},
-  { BUTTON_CreateIndirect,   "2",      GUI_ID_USER +  2,  34,  66,  30,  30},
-  { BUTTON_CreateIndirect,   "3",      GUI_ID_USER +  3,  66,  66,  30,  30},
-  { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   2,  98,  30,  30},
+  { WINDOW_CreateIndirect,   0,        0,                200, 90,  172, 172},
+  { BUTTON_CreateIndirect,   "7",      GUI_ID_USER +  7,   2,   2,  40,  40},
+  { BUTTON_CreateIndirect,   "8",      GUI_ID_USER +  8,  44,   2,  40,  40},
+  { BUTTON_CreateIndirect,   "9",      GUI_ID_USER +  9,  86,   2,  40,  40},
+   { BUTTON_CreateIndirect,   "Bak",    GUI_ID_USER +  15,  128,   58,  40,  54},
+  { BUTTON_CreateIndirect,   "4",      GUI_ID_USER +  4,   2,  44,  40,  40},
+  { BUTTON_CreateIndirect,   "5",      GUI_ID_USER +  5,  44,  44,  40,  40},
+  { BUTTON_CreateIndirect,   "6",      GUI_ID_USER +  6,  86,  44,  40,  40},
+  { BUTTON_CreateIndirect,   "1",      GUI_ID_USER +  1,   2,  86,  40,  40},
+  { BUTTON_CreateIndirect,   "2",      GUI_ID_USER +  2, 44,  86,  40,  40},
+  { BUTTON_CreateIndirect,   "3",      GUI_ID_USER +  3,  86,  86,  40,  40},
+  { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   2,  128,  40,  40},
   { BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  200,  200,  1,  1},
-  { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  98,  88,  32,  40},
+  { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  128,  114,  40,  54},
   { BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   200, 200,  1,  1},
-  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 13,  34, 98,  30,  30},
-  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 14,  66, 98,  30,  30},
+  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 13,  44, 128,  40,  40},
+  { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 14,  86, 128,  40,  40},
 
    { BUTTON_CreateIndirect,   "Ent",    GUI_ID_USER +  16,  200,   200,  1,  1},
-   { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  98,   2,  32,  40}
+   { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  128,   2,  40,  54},
 	 
 };
 
