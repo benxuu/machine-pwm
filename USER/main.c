@@ -101,7 +101,7 @@ int main(void)
 	power_Init();//初始化程控电源模块
  
 	while(1){
-				 if(USART_RX_STA&0x8000)
+				 if(USART_RX_STA&0x8000)//串口中断接收完毕，处理相关信息；
 				{ 
 						int m;
 					//USART_RX_BUF
@@ -117,11 +117,13 @@ int main(void)
 					//表示read u
 						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
 						rtV=m;
+						uimsg="read U success!";//表示读取电压成功
 					}else if(USART_RX_BUF[1]=='r' && USART_RX_BUF[2]=='i')
 					{			
 						//表示read i	
 						m=(USART_RX_BUF[10]-'0')*1000+(USART_RX_BUF[11]-'0')*100+(USART_RX_BUF[12]-'0')*10+USART_RX_BUF[13]-'0';//计算并转化返回值后4位
 						rtC=m;
+						uimsg="read C success!";//表示读取电流成功
 					}
 					USART_RX_STA=0; 
 				} 
@@ -130,7 +132,7 @@ int main(void)
 				if(i==200){ query_voltageout();i=0;}//每2秒读一次电流
 					
 				
-		GUI_Delay(50); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
+			GUI_Delay(20); //调用GUI_Delay函数延时20MS(最终目的是调用GUI_Exec()函数)
 	
 	};
 }

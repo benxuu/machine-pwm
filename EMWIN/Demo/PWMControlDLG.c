@@ -287,9 +287,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		break;
 
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
-		WM_RestartTimer(pMsg->Data.v, 300);
+		WM_RestartTimer(pMsg->Data.v, 500);
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
- 
+//设置实时电压、电流曲线数据刷新
+		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV/5);		//赋值到曲线,根据像素标量比例0.05，换算系数除5
+		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC/5);		//赋值到曲线
 //设置实时电压、电流标签数据刷新
 				sprintf(buf,  "%4d", rtC);
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);				
@@ -298,11 +300,6 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 				sprintf(buf,  "%4d", rtV);
        hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6); 
 			TEXT_SetText(hItem,  buf);
-
-//设置实时电压、电流曲线数据刷新
-		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV/5);		//赋值到曲线,根据像素标量比例0.05，换算系数除5
-		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC/5);		//赋值到曲线
-
 //界面消息刷新
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
 				TEXT_SetText(hItem, uimsg);
@@ -601,9 +598,8 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 WM_HWIN CreatePWMControl(void);
 WM_HWIN CreatePWMControl(void) {
   //WM_HWIN hWin;
-
   hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
-  WM_CreateTimer(WM_GetClientWindow(hWin), 1, 300, 0); //创建一个软件定时器
+  WM_CreateTimer(WM_GetClientWindow(hWin), 1, 200, 0); //创建一个软件定时器
   return hWin;
 }
 

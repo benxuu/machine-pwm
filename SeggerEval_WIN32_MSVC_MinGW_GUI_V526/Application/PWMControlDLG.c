@@ -670,14 +670,15 @@ static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
   { BUTTON_CreateIndirect,   "2",      GUI_ID_USER +  2,  34,  66,  30,  30},
   { BUTTON_CreateIndirect,   "3",      GUI_ID_USER +  3,  66,  66,  30,  30},
   { BUTTON_CreateIndirect,   "0",      GUI_ID_USER +  0,   2,  98,  30,  30},
-  { BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  200,  200,  1,  1},
+  //{ BUTTON_CreateIndirect,   ".",      GUI_ID_USER + 10,  200,  200,  1,  1},
   { BUTTON_CreateIndirect,   "Del",    GUI_ID_USER + 11,  98,  88,  32,  40},
-  { BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   200, 200,  1,  1},
+
   { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 13,  34, 98,  30,  30},
   { BUTTON_CreateIndirect,   0,        GUI_ID_USER + 14,  66, 98,  30,  30},
-
-   { BUTTON_CreateIndirect,   "Ent",    GUI_ID_USER +  16,  200,   200,  1,  1},
    { BUTTON_CreateIndirect,   "ESC",    GUI_ID_USER +  17,  98,   2,  32,  40},
+   //{ BUTTON_CreateIndirect,   "Ent",    GUI_ID_USER +  16,  200,   200,  1,  1},
+   //{ BUTTON_CreateIndirect,   "Tab",    GUI_ID_USER + 12,   200, 200,  1,  1},
+
 };
 
 //
