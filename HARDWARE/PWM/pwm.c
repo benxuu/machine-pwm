@@ -15,7 +15,7 @@
 //PWM输出初始化
 //arr：自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
 //psc：时钟预分频数
-u8  PWM_DC;// 占空比
+u16 PWM_DC;// 占空比
 u16 PWM_fq;	// 频率
 u16 PWM_arr=899;	// 自动重装值，psc=0，PWM频率=72000/(arr+1)=80Khz
 u16 PWM_val=0;//time1定时器值，占空比细调

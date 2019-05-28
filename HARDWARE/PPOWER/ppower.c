@@ -13,9 +13,15 @@
 u16 setV,setC,rtV,rtC;
 void power_Init(void)
 {
-	power_setC(1000);
-	delay_ms(50);
-	power_setV(0100);
+	power_setC(1000);//设置电流值为10A
+	delay_ms(100);
+	power_setV(0600);//设置电压值为6V；
+}
+void power_Init_vc(u16 v,u16 c)
+{
+	power_setV(v);//设置电压值为6V；
+	delay_ms(100);
+	power_setC(c);//设置电流值为10A
 }
 //wi 命令（设定电源输出流值范围 0000-1012）
 void power_setC(u16 Set_Current)

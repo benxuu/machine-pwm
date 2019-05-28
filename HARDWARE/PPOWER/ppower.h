@@ -11,6 +11,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 void power_Init(void);//初始化
+void power_Init_vc(u16 v,u16 c);//初始化,带电压电流参数
 void power_setC(u16 Set_Current);
 void power_setV(u16 Set_voltage);	
 void query_voltageout(void); 

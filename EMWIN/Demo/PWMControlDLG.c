@@ -1,3 +1,10 @@
+/*********************************************************************
+*
+*   update time：20190527
+*		update by：Ben
+**********************************************************************
+*/
+
 #include "DIALOG.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -5,6 +12,7 @@
 #include "pwm.h"
 #include "ppower.h"
 #include "string.h"
+#include "PWMControlDLG.h"
 
 /*********************************************************************
 *
@@ -59,7 +67,7 @@ static WM_HWIN hWin;
 static GRAPH_DATA_Handle  pdataV;
 static GRAPH_DATA_Handle  pdataC;
 extern u16 setV,setC,rtV,rtC;//电压、电流的设置值，当前实际值；
-extern u8  PWM_DC;//占空比
+extern u16  PWM_DC;//占空比
 extern u16 PWM_fq;	//频率
 char * uimsg;//界显示面消息
 char buf[4];
@@ -84,7 +92,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { EDIT_CreateIndirect, "tb_dianliu", ID_EDIT_1, 110, 375, 80, 40, 0, 0x4, 0 },//设定电流
   { TEXT_CreateIndirect, "V (10mV):", ID_TEXT_0, 20, 327, 85, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "I (10mA):", ID_TEXT_1, 26, 383, 80, 20, 0, 0x0, 0 },
-  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 321, 80, 40, 0, 0x4, 0 },//设定频率
+  { EDIT_CreateIndirect, "Edit", ID_EDIT_2, 334, 321, 80, 40, 0, 0x2, 0 },//设定频率
   { EDIT_CreateIndirect, "Edit", ID_EDIT_3, 335, 375, 80, 40, 0, 0x2, 0 },//设定占空比
   { TEXT_CreateIndirect, "W(%):", ID_TEXT_2, 282, 376, 64, 20, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "F(KHz):", ID_TEXT_3, 270, 327, 63, 20, 0, 0x0, 0 },
@@ -102,7 +110,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { BUTTON_CreateIndirect, "setC", ID_BUTTON_3, 199, 375, 64, 41, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setF", ID_BUTTON_4, 423, 320, 64, 41, 0, 0x0, 0 },
   { BUTTON_CreateIndirect, "setW", ID_BUTTON_5, 423, 375, 64, 41, 0, 0x0, 0 },
-    { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260,261, 38, 0, 0x64, 0 }
+  { TEXT_CreateIndirect, "uimsg", ID_TEXT_10, 507, 260,261, 38, 0, 0x64, 0 }
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -116,7 +124,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
 */
 static void _cbDialog(WM_MESSAGE * pMsg) {
   WM_HWIN hItem;
-  char buffer[4];
+  char buffer[5];
   int     NCode;
   int     Id;
 //  	short Val;
@@ -141,13 +149,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'tb_dianya'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_0);
-    EDIT_SetText(hItem, "500");
+		sprintf(buf,"%4d", setV);
+		EDIT_SetText(hItem,buf);
+    //EDIT_SetText(hItem, "600");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'tb_dianliu'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_1);
-    EDIT_SetText(hItem, "1000");
+		sprintf(buf,"%4d", setC);
+		EDIT_SetText(hItem,buf);
+    //EDIT_SetText(hItem, "1000");
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'V (10mV):'
@@ -163,13 +175,17 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     // Initialization of 'Edit'，频率，KHZ
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
-    EDIT_SetText(hItem, "10");
+    //EDIT_SetText(hItem, "10");
+		sprintf(buf,"%4d", PWM_fq);
+		EDIT_SetText(hItem,buf);
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'Edit'，占空比
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-    EDIT_SetText(hItem, "40");
+    //EDIT_SetText(hItem, "40");
+		sprintf(buf,"%4d", PWM_DC);
+		EDIT_SetText(hItem,buf);
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
     // Initialization of 'W(us):'
@@ -287,22 +303,22 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		break;
 
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
-		WM_RestartTimer(pMsg->Data.v, 500);
+		WM_RestartTimer(pMsg->Data.v, 1000);//1000ms刷新一次
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
 //设置实时电压、电流曲线数据刷新
 		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV/5);		//赋值到曲线,根据像素标量比例0.05，换算系数除5
 		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC/5);		//赋值到曲线
-//设置实时电压、电流标签数据刷新
-				sprintf(buf,  "%4d", rtC);
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);				
-       TEXT_SetText(hItem,  buf);
+////设置实时电压、电流标签数据刷新
+//				sprintf(buf,  "%4d", rtC);
+//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_8);				
+//       TEXT_SetText(hItem,  buf);
 
-				sprintf(buf,  "%4d", rtV);
-       hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6); 
-			TEXT_SetText(hItem,  buf);
-//界面消息刷新
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
-				TEXT_SetText(hItem, uimsg);
+//				sprintf(buf,  "%4d", rtV);
+//       hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_6); 
+//			TEXT_SetText(hItem,  buf);
+////界面消息刷新
+//				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_10);
+//				TEXT_SetText(hItem, uimsg);
 		break;
 
   case WM_NOTIFY_PARENT:
@@ -414,7 +430,10 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				power_start();//开机，电源输出
+				PWM_SET_DC(PWM_DC);//按设定占空比输出；
 				uimsg=" starting";	//  
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9); //设置标题颜色为红，提示开机
+				TEXT_SetTextColor(hItem, GUI_RED);
 					// USER END
  
         break;
@@ -432,8 +451,11 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
         	power_shutdown();//关机，电源输出
+					PWM_SET_DC(0);//输出占空比为0
 					uimsg=" shutdown!";	//  
- 
+					RefreshUIMsg();
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9); //设置标题颜色为绿，提示关机
+				TEXT_SetTextColor(hItem, GUI_GREEN);
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -452,15 +474,16 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
           hItem=WM_GetDialogItem(hWin,ID_EDIT_0);//获取设定电压值
-					EDIT_GetText(hItem,buffer,4);        
+					EDIT_GetText(hItem,buffer,5);        
 					setV=atoi(buffer);
 					if(setV > maxV){//UI将设置电压重置为最大电压；
 							setV=maxV;
-							sprintf(buf,  "%4d", maxV);
+							sprintf(buf,"%4d", maxV);
 							EDIT_SetText(hItem,buf);
 							}
 					power_setV(setV); 				
 					uimsg="Set Pulse Voltage!";
+								RefreshUIMsg();
  
         // USER END
         break;
@@ -478,15 +501,16 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_1);//获取设定电流值
-        EDIT_GetText(hItem,buffer,4);
+        EDIT_GetText(hItem,buffer,5);
         setC= atoi(buffer);
-				if(setC > maxC){//UI将设置电压重置为最大电压；
-								setV=maxC;
+				if(setC > maxC){//UI将设置电流重置为最大电流；
+								setC=maxC;
 								sprintf(buf,  "%4d", maxC);
 								EDIT_SetText(hItem,buf);
 								}
 				power_setC(setC);
 				uimsg="Set Pulse Current!";
+									RefreshUIMsg();
  
         // USER END
         break;
@@ -504,20 +528,19 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_2);//获取设定频率值
-        EDIT_GetText(hItem,buffer,2);
+        EDIT_GetText(hItem,buffer,3);
         PWM_fq= atoi(buffer);
-				if(PWM_fq > max_PWM_fq){//UI将设置电压重置为最大电压；
+				if(PWM_fq > max_PWM_fq){//UI将设置频率重置为最大频率；
 									PWM_fq=max_PWM_fq;
 									sprintf(buf,  "%2d", max_PWM_fq);
 									EDIT_SetText(hItem,buf);
 									}
 			
 				PWM_Init_fq(PWM_fq);
+				PWM_SET_DC(PWM_DC);//改变频率后需要重新设置占空比
+									
 				uimsg="Set Pulse Frequency!";
-			//设定频率后，占空比清零，需要重新设置占空比
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
-				EDIT_SetText(hItem, "50"); 
-			
+			 RefreshUIMsg();
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
@@ -534,7 +557,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
 				hItem=WM_GetDialogItem(hWin,ID_EDIT_3);//获取设定占空比值
-        EDIT_GetText(hItem,buffer,4);
+        EDIT_GetText(hItem,buffer,3);
         PWM_DC= atoi(buffer);
 				if(PWM_DC > max_PWM_DC){//UI将设置电压重置为最大电压；
 									PWM_DC=max_PWM_DC;
@@ -544,6 +567,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 			
 				PWM_SET_DC(PWM_DC);//设置占空比
 				uimsg="Set Duty Cycle";
+				RefreshUIMsg();
 
         // USER END
         break;
@@ -599,10 +623,26 @@ WM_HWIN CreatePWMControl(void);
 WM_HWIN CreatePWMControl(void) {
   //WM_HWIN hWin;
   hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
-  WM_CreateTimer(WM_GetClientWindow(hWin), 1, 200, 0); //创建一个软件定时器
+  WM_CreateTimer(WM_GetClientWindow(hWin), 1, 500, 0); //创建一个软件定时器
   return hWin;
 }
 
+
+void RefreshUIMsg(void){
+//hWin
+//设置实时电压、电流标签数据刷新
+	  WM_HWIN hItem;
+				sprintf(buf,  "%4d", rtC);
+			 hItem = WM_GetDialogItem(hWin, ID_TEXT_8);				
+				TEXT_SetText(hItem,  buf);
+	
+				sprintf(buf,  "%4d", rtV);
+       hItem = WM_GetDialogItem(hWin, ID_TEXT_6); 
+			TEXT_SetText(hItem,  buf);
+//界面消息刷新
+			hItem = WM_GetDialogItem(hWin, ID_TEXT_10);
+				TEXT_SetText(hItem, uimsg);
+}
 // USER START (Optionally insert additional public code)
 // USER END
 
