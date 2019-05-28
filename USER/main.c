@@ -11,8 +11,7 @@
 #include "timer.h"
 #include "pwm.h"
 #include "malloc.h"
-#include "GUI.h"
-//#include "GUIDemo.h"
+#include "GUI.h" 
 #include "PWMControlDLG.h"
 #include "WM.h"
 #include "DIALOG.h"
@@ -38,8 +37,13 @@ Email：benxuu@163.com
 ************************************************/
 
 
-
 u16 _setV=600,_setC=1000,_setFQ=10,_setDC=50;//设置电压、电流、频率、占空比的默认值，初始值
+u8 isStartOut=0;//系统启动标志
+const u16 maxV=1000;//定义最大电压，10V
+const u16 maxC=1000;//最大电流，10A
+const u16 max_PWM_fq=50;//最大频率50khz，周期，20us；
+const u16 min_Pulse_interval=10;//最小脉冲间隔10us；
+const u16 max_PWM_DC=100;//最大占空比 100；
 extern u16 setV,setC,rtV,rtC;//电压、电流的设置值，当前实际值；
 extern u16  PWM_DC;//占空比
 extern u16 PWM_fq;	//频率

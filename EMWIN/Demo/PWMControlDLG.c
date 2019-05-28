@@ -59,11 +59,9 @@
 // USER START (Optionally insert additional static data)
 
  
-
-
-
 static WM_HWIN hNumPad;
 static WM_HWIN hWin;
+static WM_HTIMER hTimer;
 static GRAPH_DATA_Handle  pdataV;
 static GRAPH_DATA_Handle  pdataC;
 extern u16 setV,setC,rtV,rtC;//电压、电流的设置值，当前实际值；
@@ -71,11 +69,12 @@ extern u16  PWM_DC;//占空比
 extern u16 PWM_fq;	//频率
 char * uimsg;//界显示面消息
 char buf[4];
-const u16 maxV=1000;//定义最大电压，10V
-const u16 maxC=1000;//最大电流，10A
-const u8 max_PWM_fq=50;//最大频率50khz，周期，20us；
-const u8 min_Pulse_interval=10;//最小脉冲间隔10us；
-const u8 max_PWM_DC=100;//最大占空比 100；
+extern u16 maxV;//定义最大电压，10V
+extern u16 maxC;//最大电流，10A
+extern u16 max_PWM_fq;//最大频率50khz，周期，20us；
+extern u16 min_Pulse_interval;//最小脉冲间隔10us；
+extern u16 max_PWM_DC;//最大占空比 100；
+extern u8 isStartOut;//系统启动标志
 
 
 
@@ -176,7 +175,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_2);
     //EDIT_SetText(hItem, "10");
-		sprintf(buf,"%4d", PWM_fq);
+		sprintf(buf,"%2d", PWM_fq);
 		EDIT_SetText(hItem,buf);
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
@@ -184,7 +183,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, ID_EDIT_3);
     //EDIT_SetText(hItem, "40");
-		sprintf(buf,"%4d", PWM_DC);
+		sprintf(buf,"%2d", PWM_DC);
 		EDIT_SetText(hItem,buf);
     EDIT_SetFont(hItem, GUI_FONT_20_1);
     //
@@ -303,9 +302,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		break;
 
 case WM_TIMER://定时器消息(定时到时程序跑到这里)
-		WM_RestartTimer(pMsg->Data.v, 1000);//1000ms刷新一次
+		if(isStartOut) //1000ms刷新一次
+		{
+				WM_RestartTimer(pMsg->Data.v, 1000);
+		}
+		//if(isStartOut==1) WM_RestartTimer(hTimer, 1000);//1000ms刷新一次
 		//if(WM_IsCompletelyCovered(pMsg->hWin)) break;		//当切换到其他页面什么都不做
-//设置实时电压、电流曲线数据刷新
+	//设置实时电压、电流曲线数据刷新
 		 GRAPH_DATA_YT_AddValue(pdataV, (I16)rtV/5);		//赋值到曲线,根据像素标量比例0.05，换算系数除5
 		 GRAPH_DATA_YT_AddValue(pdataC, (I16)rtC/5);		//赋值到曲线
 ////设置实时电压、电流标签数据刷新
@@ -356,7 +359,6 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
     case ID_EDIT_0: // Notifications sent by 'tb_dianya'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED: 
-
         break;
       case WM_NOTIFICATION_RELEASED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -365,9 +367,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
       case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+        break; 
       }
       break;
     case ID_EDIT_1: // Notifications sent by 'tb_dianliu'
@@ -399,11 +399,9 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER END
         break;
       case WM_NOTIFICATION_VALUE_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
     case ID_EDIT_3: // Notifications sent by 'Edit'
@@ -432,40 +430,40 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 				power_start();//开机，电源输出
 				PWM_SET_DC(PWM_DC);//按设定占空比输出；
 				uimsg=" starting";	//  
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9); //设置标题颜色为红，提示开机
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9); //设置标题颜色为红，提示开机
 				TEXT_SetTextColor(hItem, GUI_RED);
-					// USER END
+				isStartOut=1;//设置启动状态
+				//WM_CreateTimer(WM_GetClientWindow(hWin), 1, 500, 0); //创建一个软件定时器 
+				WM_RestartTimer(hTimer, 1000);//1000ms刷新一次
+			  //WM_CreateTimer(WM_GetClientWindow(hWin), 1, 500, 0); //创建一个软件定时器
+				//hTimer = WM_CreateTimer(hWin, 0, 1000, 0);
+				// USER END
+			
  
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
  
-        // USER END
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
     case ID_BUTTON_1: // Notifications sent by 'STOP'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
         	power_shutdown();//关机，电源输出
 					PWM_SET_DC(0);//输出占空比为0
 					uimsg=" shutdown!";	//  
 					RefreshUIMsg();
-			hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9); //设置标题颜色为绿，提示关机
-				TEXT_SetTextColor(hItem, GUI_GREEN);
+					hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_9); //设置标题颜色为绿，提示关机
+					TEXT_SetTextColor(hItem, GUI_GREEN);
+					isStartOut=0;//设置关机状态
+					//WM_DeleteTimer(hTimer);//删除示波器定时器
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
  
-         
-        // USER END
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
 
@@ -488,12 +486,9 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-
-        // USER END
+  
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
    case ID_BUTTON_3: // Notifications sent by 'setI'设定电流
@@ -515,12 +510,9 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-
-        // USER END
+ 
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
    case ID_BUTTON_4: // Notifications sent by 'setF'
@@ -534,8 +526,7 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 									PWM_fq=max_PWM_fq;
 									sprintf(buf,  "%2d", max_PWM_fq);
 									EDIT_SetText(hItem,buf);
-									}
-			
+									}			
 				PWM_Init_fq(PWM_fq);
 				PWM_SET_DC(PWM_DC);//改变频率后需要重新设置占空比
 									
@@ -544,12 +535,9 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-
-        // USER END
+ 
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
 	case ID_BUTTON_5: // Notifications sent by 'setW'
@@ -572,30 +560,23 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
         // USER END
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-
-        // USER END
+  
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
  case ID_HEADER_0: // Notifications sent by 'Header'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 
         break;
       case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 
         break;
       case WM_NOTIFICATION_MOVED_OUT:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
+ 
         break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
+ 
       }
       break;
 
@@ -620,10 +601,10 @@ case WM_TIMER://定时器消息(定时到时程序跑到这里)
 *       CreatePWMControl
 */
 WM_HWIN CreatePWMControl(void);
-WM_HWIN CreatePWMControl(void) {
-  //WM_HWIN hWin;
+WM_HWIN CreatePWMControl(void) { 
   hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
-  WM_CreateTimer(WM_GetClientWindow(hWin), 1, 500, 0); //创建一个软件定时器
+	//hTimer = WM_CreateTimer(hWin, 1, 1000, 0);//创建一个软件定时器，用于示波器刷新
+  hTimer = WM_CreateTimer(WM_GetClientWindow(hWin), 1, 500, 0); //创建一个软件定时器 
   return hWin;
 }
 
@@ -853,8 +834,10 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
 *       MainTask
 */
 
-void CreateUI(void){
+ 
+ void CreateUI(void){
 hWin=CreatePWMControl();
+//hTimer = WM_CreateTimer(hWin, 1, 500, 0); //创建一个软件定时器
 hNumPad = GUI_CreateDialogBox(_aDialogNumPad,
                                 GUI_COUNTOF(_aDialogNumPad),
                                 _cbDialogNumPad, WM_HBKWIN, 300, 200); /* Create the numpad dialog */

@@ -161,7 +161,7 @@ TIM_Cmd(TIM1, ENABLE);  //使能TIM1
 //设置PWM占空比0-100
 void PWM_SET_DC(u8 dutyCycle){	
 	PWM_val=(PWM_arr+1)*dutyCycle/100;
-	PWM_DC=dutyCycle;
+	//PWM_DC=dutyCycle;
 	TIM1->CCR1=PWM_val;	
 	//TIM_SetCompare1(TIM1,PWM_val);
 }
